@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Remy.IA · Qualquer um pode cozinhar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" id="favicon">
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="remy" data-size="40"></span>
+      <div>
+        <strong>Remy.IA</strong>
+        <small>Bistrô de receitas</small>
+      </div>
+    </div>
+    <div class="xadrez"></div>
+    <button class="btn-nova" id="btnNova">+ Nova receita</button>
+    <p class="side-label">Conversas</p>
+    <nav class="conversas" id="listaConversas"></nav>
+    <div class="side-footer">
+      <button class="btn-ghost" id="btnConfig">⚙ Conectar modelo</button>
+      <div class="status" id="status"></div>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <main class="main">
+    <div class="xadrez"></div>
+    <header class="topbar">
+      <button class="btn-icon" id="btnMenu" aria-label="Abrir menu">☰</button>
+      <span class="topbar-title" id="tituloConversa">Nova receita</span>
+    </header>
+
+    <section class="chat" id="chat">
+      <div class="welcome" id="welcome">
+        <span class="remy remy-grande" data-size="120"></span>
+        <h1>Qualquer um pode cozinhar.</h1>
+        <p>Me conte o que tem na geladeira e eu sugiro o que fazer.</p>
+        <div class="sugestoes">
+          <button class="sugestao" data-ing="frango, arroz, tomate, cebola, alho">
+            <b>Jantar com o que sobrou</b><span>frango, arroz, tomate, cebola, alho</span>
+          </button>
+          <button class="sugestao" data-ing="ovo, leite, farinha, queijo">
+            <b>Café da manhã rápido</b><span>ovo, leite, farinha, queijo</span>
+          </button>
+          <button class="sugestao" data-ing="macarrão, alho, queijo, salsinha">
+            <b>Massa em 20 minutos</b><span>macarrão, alho, queijo, salsinha</span>
+          </button>
+          <button class="sugestao" data-ing="carne, batata, cebola, ovo, banana, açúcar" data-modo="cardapio">
+            <b>Cardápio do dia</b><span>carne, batata, cebola, ovo, banana...</span>
+          </button>
+        </div>
+      </div>
+      <div class="mensagens" id="mensagens"></div>
+    </section>
+
+    <footer class="composer-wrap">
+      <div class="modos">
+        <div class="seg" role="tablist">
+          <button type="button" class="seg-btn ativo" data-modo="receitas">🍳 Receitas</button>
+          <button type="button" class="seg-btn" data-modo="cardapio">📋 Cardápio do dia</button>
+        </div>
+        <label class="meta" id="meta" hidden>
+          Meta <input type="number" id="metaCalorias" value="2000" min="500" max="5000" step="50"> kcal
+        </label>
+      </div>
+      <form class="composer" id="composer">
+        <div class="chips" id="chips"></div>
+        <textarea id="entrada" rows="1" placeholder="Digite seus ingredientes separados por vírgula..."></textarea>
+        <button type="submit" class="btn-enviar" id="btnEnviar" aria-label="Enviar">➤</button>
+      </form>
+      <p class="hint">Vírgula cria um ingrediente · Enter envia · Remy pode errar, confira antes de cozinhar.</p>
+    </footer>
+  </main>
+
+  <dialog id="dlgConfig">
+    <form method="dialog" class="config">
+      <h2>Conectar modelo</h2>
+      <label>Fonte das respostas
+        <select id="cfgModo">
+          <option value="demo">Demonstração (receitas de exemplo, sem modelo)</option>
+          <option value="gradio">Hugging Face Space (Gradio) · recomendado</option>
+          <option value="openai">API compatível com OpenAI (TGI, Inference Endpoints, vLLM, Ollama)</option>
+        </select>
+      </label>
+      <div data-para="gradio">
+        <label>ID do Space <input id="cfgSpace" placeholder="usuario/remy-ia"></label>
+        <label>Endpoint <input id="cfgEndpoint" placeholder="/responder"></label>
+      </div>
+      <div data-para="openai">
+        <label>URL base <input id="cfgUrl" placeholder="https://xxxx.endpoints.huggingface.cloud/v1"></label>
+        <label>Modelo <input id="cfgModelo" placeholder="tgi"></label>
+      </div>
+      <div data-para="gradio openai">
+        <label>Token (opcional) <input id="cfgToken" type="password" placeholder="hf_..."></label>
+        <p class="aviso">O token fica salvo só neste navegador. Num site público, prefira um Space público e não use token.</p>
+      </div>
+      <menu>
+        <button value="cancel" class="btn-ghost-escuro">Cancelar</button>
+        <button value="ok" id="cfgSalvar" class="btn-primario">Salvar</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="remy.js"></script>
+  <script src="demo.js"></script>
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
