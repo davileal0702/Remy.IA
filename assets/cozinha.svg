@@ -1,0 +1,245 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <!-- Cozinha ilustrada original do Remy.IA: parede de azulejos, panelas de cobre, prateleiras e bancada. -->
+  <defs>
+    <linearGradient id="parede" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d1915"/>
+      <stop offset="1" stop-color="#110e0c"/>
+    </linearGradient>
+    <pattern id="azulejo" width="64" height="64" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="#ffffff" stroke-opacity=".045" stroke-width="1.5">
+        <path d="M0 0h64M0 32h64M0 0v32M32 32v32"/>
+      </g>
+    </pattern>
+    <radialGradient id="luz" cx=".5" cy="0" r=".75">
+      <stop offset="0" stop-color="#f2b15d" stop-opacity=".30"/>
+      <stop offset=".45" stop-color="#c7782f" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vinheta" cx=".5" cy=".45" r=".75">
+      <stop offset=".35" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".75"/>
+    </radialGradient>
+    <radialGradient id="cobre" cx=".38" cy=".32" r=".8">
+      <stop offset="0" stop-color="#f0b080"/>
+      <stop offset=".35" stop-color="#c9773f"/>
+      <stop offset=".8" stop-color="#7d3f1c"/>
+      <stop offset="1" stop-color="#4a230f"/>
+    </radialGradient>
+    <linearGradient id="cobreLado" x1="0" x2="1">
+      <stop offset="0" stop-color="#5a2b12"/>
+      <stop offset=".3" stop-color="#d48a52"/>
+      <stop offset=".55" stop-color="#a65a2a"/>
+      <stop offset="1" stop-color="#4a230f"/>
+    </linearGradient>
+    <linearGradient id="ferro" x1="0" x2="1">
+      <stop offset="0" stop-color="#2a2522"/>
+      <stop offset=".4" stop-color="#5b524b"/>
+      <stop offset="1" stop-color="#1f1b18"/>
+    </linearGradient>
+    <linearGradient id="madeira" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6b4226"/>
+      <stop offset=".12" stop-color="#4f2f1a"/>
+      <stop offset="1" stop-color="#2a180c"/>
+    </linearGradient>
+    <linearGradient id="prateleira" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5d3a21"/>
+      <stop offset="1" stop-color="#2e1b0e"/>
+    </linearGradient>
+    <radialGradient id="prato" cx=".5" cy=".45" r=".55">
+      <stop offset="0" stop-color="#efe6d6"/>
+      <stop offset=".7" stop-color="#d8cbb4"/>
+      <stop offset="1" stop-color="#9c8f7b"/>
+    </radialGradient>
+    <linearGradient id="vidro" x1="0" x2="1">
+      <stop offset="0" stop-color="#1e3322"/>
+      <stop offset=".35" stop-color="#3f6a45"/>
+      <stop offset="1" stop-color="#14231a"/>
+    </linearGradient>
+    <linearGradient id="vapor" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Utensílios pendurados (origem no gancho) -->
+    <g id="gancho"><path d="M0 0v10a7 7 0 1 0 7 7" fill="none" stroke="#8a6a4a" stroke-width="3" stroke-linecap="round"/></g>
+    <g id="frigideira">
+      <use href="#gancho"/>
+      <rect x="-7" y="22" width="14" height="120" rx="7" fill="#2b1d14"/>
+      <circle cy="34" r="4" fill="#120c08"/>
+      <circle cy="212" r="78" fill="url(#cobre)"/>
+      <circle cy="212" r="64" fill="none" stroke="#f6c49a" stroke-opacity=".25" stroke-width="3"/>
+      <ellipse cx="-26" cy="180" rx="20" ry="9" fill="#fff" opacity=".18" transform="rotate(-35 -26 180)"/>
+    </g>
+    <g id="frigideiraP">
+      <use href="#gancho"/>
+      <rect x="-6" y="22" width="12" height="90" rx="6" fill="#2b1d14"/>
+      <circle cy="164" r="56" fill="url(#cobre)"/>
+      <circle cy="164" r="45" fill="none" stroke="#f6c49a" stroke-opacity=".22" stroke-width="2.5"/>
+      <ellipse cx="-18" cy="142" rx="14" ry="6" fill="#fff" opacity=".18" transform="rotate(-35 -18 142)"/>
+    </g>
+    <g id="concha">
+      <use href="#gancho"/>
+      <rect x="-4" y="22" width="8" height="170" rx="4" fill="url(#ferro)"/>
+      <path d="M-30 196a30 26 0 0 0 60 0z" fill="url(#ferro)"/>
+    </g>
+    <g id="batedor">
+      <use href="#gancho"/>
+      <rect x="-6" y="22" width="12" height="70" rx="5" fill="#3a2a1d"/>
+      <g fill="none" stroke="#a49a90" stroke-width="2.2">
+        <path d="M-4 92c-26 40-20 110 4 118 24-8 30-78 4-118"/>
+        <path d="M-2 92c-12 40-10 110 2 118 12-8 14-78 2-118"/>
+        <path d="M0 92v118"/>
+      </g>
+    </g>
+    <g id="espatula">
+      <use href="#gancho"/>
+      <rect x="-6" y="22" width="12" height="110" rx="5" fill="#3a2a1d"/>
+      <rect x="-3" y="130" width="6" height="26" fill="#8e857d"/>
+      <rect x="-24" y="154" width="48" height="58" rx="8" fill="url(#ferro)"/>
+      <path d="M-12 164v38M0 164v38M12 164v38" stroke="#16120f" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g id="panelinha">
+      <use href="#gancho"/>
+      <rect x="-6" y="22" width="12" height="80" rx="6" fill="#2b1d14"/>
+      <circle cy="150" r="44" fill="url(#cobre)"/>
+      <circle cy="150" r="34" fill="#3a1b0b" opacity=".35"/>
+    </g>
+    <g id="pratoEmPe">
+      <circle r="34" fill="url(#prato)"/>
+      <circle r="22" fill="none" stroke="#b9ab94" stroke-width="2"/>
+      <circle r="30" fill="none" stroke="#2f4a35" stroke-width="2.5" stroke-opacity=".8"/>
+    </g>
+  </defs>
+
+  <!-- Parede e azulejos -->
+  <rect width="1600" height="1000" fill="url(#parede)"/>
+  <rect width="1600" height="860" fill="url(#azulejo)"/>
+  <rect width="1600" height="1000" fill="url(#luz)"/>
+
+  <!-- Luminária pendente -->
+  <path d="M800 0v52" stroke="#2b1d14" stroke-width="3"/>
+  <path d="M752 92q0-40 48-40t48 40z" fill="url(#cobreLado)"/>
+  <rect x="748" y="90" width="104" height="5" rx="2.5" fill="#7d3f1c"/>
+  <ellipse cx="800" cy="97" rx="22" ry="6" fill="#ffd89a"/>
+
+  <!-- Trilho de cobre com utensílios (esquerda) -->
+  <rect x="40" y="150" width="440" height="10" rx="5" fill="url(#cobreLado)"/>
+  <circle cx="44" cy="155" r="10" fill="#a65a2a"/><circle cx="476" cy="155" r="10" fill="#a65a2a"/>
+  <use href="#frigideira" x="110" y="160"/>
+  <use href="#concha" x="220" y="160"/>
+  <use href="#frigideiraP" x="310" y="160"/>
+  <use href="#batedor" x="410" y="160"/>
+
+  <!-- Trilho de cobre com utensílios (direita) -->
+  <rect x="1120" y="150" width="440" height="10" rx="5" fill="url(#cobreLado)"/>
+  <circle cx="1124" cy="155" r="10" fill="#a65a2a"/><circle cx="1556" cy="155" r="10" fill="#a65a2a"/>
+  <use href="#espatula" x="1180" y="160"/>
+  <use href="#panelinha" x="1270" y="160"/>
+  <use href="#concha" x="1370" y="160"/>
+  <use href="#frigideira" x="1475" y="160"/>
+
+  <!-- Prateleira esquerda: pratos, potes e garrafa -->
+  <rect x="20" y="560" width="470" height="18" fill="url(#prateleira)"/>
+  <path d="M60 578l20 40h10l-14-40zM450 578l-20 40h-10l14-40z" fill="#2e1b0e"/>
+  <use href="#pratoEmPe" x="80" y="526"/>
+  <use href="#pratoEmPe" x="104" y="526"/>
+  <use href="#pratoEmPe" x="128" y="526"/>
+  <g transform="translate(200 470)">
+    <rect width="62" height="90" rx="10" fill="#c9bfae" fill-opacity=".18" stroke="#e8dcc6" stroke-opacity=".35"/>
+    <rect x="-3" y="-12" width="68" height="16" rx="4" fill="#8a5a2b"/>
+    <rect x="8" y="40" width="46" height="44" rx="6" fill="#d9b26a" opacity=".55"/>
+  </g>
+  <g transform="translate(280 490)">
+    <rect width="52" height="70" rx="9" fill="#c9bfae" fill-opacity=".18" stroke="#e8dcc6" stroke-opacity=".35"/>
+    <rect x="-3" y="-10" width="58" height="14" rx="4" fill="#8a5a2b"/>
+    <rect x="7" y="26" width="38" height="38" rx="5" fill="#b8323f" opacity=".55"/>
+  </g>
+  <g transform="translate(370 400)">
+    <rect x="16" width="16" height="40" fill="url(#vidro)"/>
+    <path d="M0 160V78q0-30 18-38h12q18 8 18 38v82z" fill="url(#vidro)"/>
+    <rect x="6" y="96" width="36" height="34" rx="2" fill="#e9dcc1" opacity=".85"/>
+    <rect x="14" y="-6" width="20" height="10" rx="2" fill="#7a1f2b"/>
+  </g>
+
+  <!-- Prateleira direita: tigelas, ervas e jarro com utensílios -->
+  <rect x="1110" y="560" width="470" height="18" fill="url(#prateleira)"/>
+  <path d="M1150 578l20 40h10l-14-40zM1540 578l-20 40h-10l14-40z" fill="#2e1b0e"/>
+  <g transform="translate(1160 500)">
+    <path d="M0 30h110a55 30 0 0 1-110 0z" fill="url(#prato)"/>
+    <path d="M8 12h94a47 22 0 0 1-94 0z" fill="url(#prato)"/>
+    <path d="M18 -4h74a37 18 0 0 1-74 0z" fill="url(#prato)"/>
+  </g>
+  <g transform="translate(1320 470)">
+    <g fill="#4f7a3a">
+      <ellipse cx="22" cy="10" rx="10" ry="22" transform="rotate(-25 22 10)"/>
+      <ellipse cx="38" cy="0" rx="10" ry="26"/>
+      <ellipse cx="55" cy="10" rx="10" ry="22" transform="rotate(25 55 10)"/>
+      <ellipse cx="30" cy="-14" rx="7" ry="16" fill="#6a9a4a" transform="rotate(-10 30 -14)"/>
+      <ellipse cx="48" cy="-12" rx="7" ry="16" fill="#6a9a4a" transform="rotate(15 48 -12)"/>
+    </g>
+    <path d="M6 90h64l-8-60H14z" fill="#9b4a26"/>
+    <rect x="0" y="22" width="76" height="12" rx="3" fill="#b5602f"/>
+  </g>
+  <g transform="translate(1450 460)">
+    <g stroke="#7d6a55" stroke-width="5" stroke-linecap="round">
+      <path d="M30 26l-8-50M44 26l2-58M56 26l12-46"/>
+    </g>
+    <circle cx="22" cy="-26" r="7" fill="#9a958d"/><ellipse cx="46" cy="-36" rx="7" ry="10" fill="#9a958d"/>
+    <path d="M10 100q-12-50 6-74h50q18 24 6 74z" fill="#e6dccb" opacity=".9"/>
+    <path d="M70 40q26 6 18 34-6 16-20 14" fill="none" stroke="#e6dccb" stroke-width="8" opacity=".9"/>
+    <path d="M14 30h60" stroke="#2f4a35" stroke-width="5"/>
+  </g>
+
+  <!-- Bancada -->
+  <rect y="860" width="1600" height="140" fill="url(#madeira)"/>
+  <rect y="856" width="1600" height="8" fill="#7a4d2c"/>
+  <g stroke="#000" stroke-opacity=".18" stroke-width="2">
+    <path d="M0 900h1600M0 940h1600M0 975h1600"/>
+    <path d="M300 864v36M760 900v40M1180 864v36M520 940v35M1380 940v35M90 900v40"/>
+  </g>
+
+  <!-- Caldeirão com vapor (esquerda) -->
+  <g transform="translate(90 720)">
+    <path d="M0 40h220v70q0 34-34 34H34Q0 144 0 110z" fill="url(#cobreLado)"/>
+    <rect x="-8" y="28" width="236" height="16" rx="8" fill="#d48a52"/>
+    <path d="M-8 60h-22v26h22M228 60h22v26h-22" fill="none" stroke="#7d3f1c" stroke-width="8"/>
+    <path d="M10 28q100-40 200 0z" fill="#8a4a22"/>
+    <circle cx="110" cy="-2" r="10" fill="#5a2b12"/>
+    <g fill="none" stroke="url(#vapor)" stroke-width="10" stroke-linecap="round">
+      <path d="M70 -20c-20-30 20-50 0-90">
+        <animate attributeName="opacity" values=".2;.9;.2" dur="4s" repeatCount="indefinite"/>
+      </path>
+      <path d="M115 -25c-20-30 20-55 0-100">
+        <animate attributeName="opacity" values=".8;.2;.8" dur="5s" repeatCount="indefinite"/>
+      </path>
+      <path d="M160 -20c-20-30 20-50 0-85">
+        <animate attributeName="opacity" values=".3;.8;.3" dur="4.5s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- Tábua com tomate, alho e faca (direita) -->
+  <g transform="translate(1230 800)">
+    <rect width="300" height="64" rx="14" fill="#a8743f"/>
+    <rect y="54" width="300" height="10" rx="5" fill="#7a5028"/>
+    <circle cx="282" cy="24" r="8" fill="#5a3a1a"/>
+    <circle cx="70" cy="2" r="34" fill="#c43a2c"/>
+    <ellipse cx="58" cy="-12" rx="10" ry="6" fill="#fff" opacity=".25"/>
+    <path d="M60 -32l10 6 10-6-4 10 8 4h-12l-2 8-2-8h-12l8-4z" fill="#4f7a3a"/>
+    <path d="M130 30q4-36 22-40 18 4 22 40z" fill="#efe6d6"/>
+    <path d="M152 -10v-10" stroke="#b9ab94" stroke-width="3"/>
+    <path d="M140 28q12-30 12-38M164 28q-12-30 0-38" stroke="#cdbfa6" stroke-width="2" fill="none"/>
+    <path d="M190 20l90-14 4 10-90 12z" fill="#c9c3bc"/>
+    <rect x="160" y="18" width="38" height="12" rx="4" fill="#2b1d14" transform="rotate(-9 179 24)"/>
+  </g>
+
+  <!-- Pilha de pratos (centro, discreta) -->
+  <g transform="translate(700 840)" opacity=".55">
+    <ellipse cx="100" cy="18" rx="100" ry="14" fill="#9c8f7b"/>
+    <ellipse cx="100" cy="10" rx="100" ry="14" fill="#cfc2aa"/>
+    <ellipse cx="100" cy="2" rx="100" ry="14" fill="url(#prato)"/>
+    <ellipse cx="100" cy="2" rx="66" ry="8" fill="none" stroke="#2f4a35" stroke-width="2"/>
+  </g>
+
+  <rect width="1600" height="1000" fill="url(#vinheta)"/>
+</svg>

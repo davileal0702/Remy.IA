@@ -12,7 +12,8 @@ const entrada = $("#entrada"), chipsEl = $("#chips"), mensagensEl = $("#mensagen
 const salvar = () => localStorage.setItem(CHAVE, JSON.stringify(conversas));
 const conversaAtual = () => conversas.find(c => c.id === atual);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const nota = n => Number(n).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const ic = nome => `<svg class="ic"><use href="#i-${nome}"/></svg>`;
+const nota = n =>Number(n).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
 // Markdown mínimo: **negrito**, *itálico*, listas. O HTML é escapado antes.
 const inline = s => s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(\S.*?)\*/g, "<em>$1</em>");
@@ -37,13 +38,13 @@ function renderReceita(r) {
   return `<article class="card">
     <h4>${esc(r.nome)}</h4>
     <div class="tags">
-      ${r.minutos != null ? `<span class="tag">⏱ ${esc(r.minutos)} min</span>` : ""}
-      ${r.nota != null ? `<span class="tag">★ ${nota(r.nota)}</span>` : ""}
-      ${r.calorias != null ? `<span class="tag">${Math.round(r.calorias)} kcal</span>` : ""}
+      ${r.minutos != null ? `<span class="tag">${ic("relogio")}${esc(r.minutos)} min</span>` : ""}
+      ${r.nota != null ? `<span class="tag">${ic("estrela")}${nota(r.nota)}</span>` : ""}
+      ${r.calorias != null ? `<span class="tag">${ic("fogo")}${Math.round(r.calorias)} kcal</span>` : ""}
     </div>
-    ${r.tem?.length ? `<p class="tem"><b>Você tem:</b> ${r.tem.map(esc).join(", ")}</p>` : ""}
-    <p class="${falta.length ? "falta" : "ok"}">${falta.length ? `<b>Falta comprar:</b> ${falta.map(esc).join(", ")}` : "Tem tudo! Pode ir pro fogão."}</p>
-    ${r.passos?.length ? `<details><summary>Modo de preparo</summary><ol>${r.passos.map(p => `<li>${esc(p)}</li>`).join("")}</ol></details>` : ""}
+    ${r.tem?.length ? `<p class="tem">${ic("talheres")}<span><b>Você tem:</b> ${r.tem.map(esc).join(", ")}</span></p>` : ""}
+    ${falta.length ? `<p class="falta">${ic("cesta")}<span><b>Falta comprar:</b> ${falta.map(esc).join(", ")}</span></p>` : `<p class="ok">${ic("check")}<span>Tem tudo! Pode ir pro fogão.</span></p>`}
+    ${r.passos?.length ? `<details><summary>${ic("livro")}Modo de preparo</summary><ol>${r.passos.map(p => `<li>${esc(p)}</li>`).join("")}</ol></details>` : ""}
   </article>`;
 }
 
@@ -51,8 +52,12 @@ function renderCardapio(c) {
   const itens = c.itens || [];
   const total = c.total_calorias ?? itens.reduce((s, i) => s + (i.calorias || 0), 0);
   return `<div class="cardapio">
-    <div class="cardapio-head"><span>MENU DU JOUR</span><b>${Math.round(total)}${c.meta_calorias ? ` / ${esc(c.meta_calorias)}` : ""} kcal</b></div>
-    ${itens.map(i => `<div class="prato"><small>${esc(i.refeicao)}</small><strong>${esc(i.nome)}</strong><span>${Math.round(i.calorias || 0)} kcal</span></div>`).join("")}
+    <p class="sobretitulo">Chez Remy</p>
+    <h5>Menu du jour</h5>
+    <div class="ornamento"><i></i><b></b><i></i></div>
+    ${itens.map(i => `<div class="prato"><small>${esc(i.refeicao)}</small>
+      <div class="linha-prato"><strong>${esc(i.nome)}</strong><i class="pontilhado"></i><span>${Math.round(i.calorias || 0)} kcal</span></div></div>`).join("")}
+    <div class="cardapio-total">TOTAL <b>${Math.round(total)}</b>${c.meta_calorias ? ` de ${esc(c.meta_calorias)}` : ""} kcal</div>
   </div>`;
 }
 
@@ -63,11 +68,11 @@ function renderMensagem(m) {
     el.innerHTML = `<div class="bolha">
       ${m.ingredientes?.length ? `<div class="chips-msg">${m.ingredientes.map(i => `<span class="chip">${esc(i)}</span>`).join("")}</div>` : ""}
       ${m.texto ? `<p>${esc(m.texto)}</p>` : ""}
-      ${m.modo === "cardapio" ? `<span class="tag tag-claro">📋 Cardápio · ${esc(m.meta)} kcal</span>` : ""}
+      ${m.modo === "cardapio" ? `<span class="tag" style="margin-top:8px">${ic("cloche")}Cardápio · ${esc(m.meta)} kcal</span>` : ""}
     </div>`;
   } else {
     const d = m.dados || {};
-    el.innerHTML = `<span class="avatar">${Remy.svg(34)}</span>
+    el.innerHTML = `<span class="avatar">${Remy.svg(30)}</span>
       <div class="conteudo ${d.erro ? "erro" : ""}">
         ${md(d.texto || "")}
         ${d.cardapio ? renderCardapio(d.cardapio) : ""}
@@ -89,12 +94,12 @@ function renderChat() {
 function renderLista() {
   $("#listaConversas").innerHTML = conversas.map(c =>
     `<div class="conv ${c.id === atual ? "ativa" : ""}" data-id="${c.id}">
-      <span>${esc(c.titulo)}</span><button class="apagar" data-apagar="${c.id}" aria-label="Apagar conversa">×</button>
+      ${ic(c.mensagens.some(m => m.modo === "cardapio") ? "cloche" : "frigideira")}<span>${esc(c.titulo)}</span><button class="apagar" data-apagar="${c.id}" aria-label="Apagar conversa">${ic("fechar")}</button>
     </div>`).join("") || `<p class="vazio">Nenhuma receita ainda.</p>`;
 }
 
 function renderChips() {
-  chipsEl.innerHTML = chips.map((c, i) => `<span class="chip">${esc(c)}<button type="button" data-tirar="${i}" aria-label="Remover ${esc(c)}">×</button></span>`).join("");
+  chipsEl.innerHTML = chips.map((c, i) => `<span class="chip">${esc(c)}<button type="button" data-tirar="${i}" aria-label="Remover ${esc(c)}">${ic("fechar")}</button></span>`).join("");
 }
 
 function renderStatus() {
@@ -147,7 +152,7 @@ async function enviar() {
   enviando = true; $("#btnEnviar").disabled = true;
   const pensando = document.createElement("div");
   pensando.className = "msg assistant";
-  pensando.innerHTML = `<span class="avatar cozinhando">${Remy.svg(34)}</span><div class="conteudo"><span class="pensando">Remy está cozinhando<span class="pontinhos"></span></span></div>`;
+  pensando.innerHTML = `<span class="avatar cozinhando">${Remy.svg(30)}</span><div class="conteudo"><span class="pensando">${ic("panela")}Remy está cozinhando<span class="pontinhos"></span></span></div>`;
   mensagensEl.appendChild(pensando); rolar();
 
   let dados;
@@ -177,7 +182,7 @@ entrada.addEventListener("keydown", e => {
 });
 $("#composer").addEventListener("submit", e => { e.preventDefault(); enviar(); });
 chipsEl.addEventListener("click", e => {
-  const i = e.target.dataset.tirar;
+  const i = e.target.closest("[data-tirar]")?.dataset.tirar;
   if (i != null) { chips.splice(+i, 1); renderChips(); entrada.focus(); }
 });
 document.querySelectorAll(".seg-btn").forEach(b => b.addEventListener("click", () => setModo(b.dataset.modo)));
@@ -188,7 +193,7 @@ document.querySelectorAll(".sugestao").forEach(b => b.addEventListener("click", 
 }));
 $("#btnNova").addEventListener("click", () => { abrir(null); entrada.focus(); });
 $("#listaConversas").addEventListener("click", e => {
-  const apagar = e.target.dataset.apagar;
+  const apagar = e.target.closest("[data-apagar]")?.dataset.apagar;
   if (apagar) {
     conversas = conversas.filter(c => c.id !== apagar); salvar();
     if (atual === apagar) atual = null;

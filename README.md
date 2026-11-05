@@ -18,7 +18,8 @@ Para publicar no GitHub Pages: suba a pasta no repositório, vá em **Settings >
 | Arquivo | O que faz |
 |---|---|
 | `index.html` | Estrutura da página |
-| `style.css` | Tema (bistrô de Paris, toalha xadrez) |
+| `style.css` | Tema (cozinha escura premium, detalhes dourados) |
+| `assets/cozinha.svg` | Ilustração de fundo da cozinha |
 | `remy.js` | Mascote em pixel art (ratinho chef com colher de pau) |
 | `app.js` | Chat, chips de ingredientes, histórico (salvo no `localStorage`) |
 | `api.js` | Conexão com o modelo |
