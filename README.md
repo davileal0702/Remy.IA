@@ -81,7 +81,7 @@ O Space devolve um texto JSON. Todos os campos são opcionais; se vier texto pur
 }
 ```
 
-`receitas` vira cards. `cardapio` vira o "Menu du jour".
+`receitas` vira cards. No cardápio, cada item de `cardapio.itens` vira um card com o rótulo da refeição (usa a receita de mesmo `nome` em `receitas`, se houver).
 
 ## Teste rápido
 

@@ -73,7 +73,7 @@
     await digitar(pedido2.ingredientes.join(", ") + ", ");
     await digitar(pedido2.mensagem, 55);
     await enviarEEsperar();
-    document.querySelector(".msg:last-child .cardapio")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.querySelector(".msg:last-child .cards")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   window.addEventListener("load", roteiro);

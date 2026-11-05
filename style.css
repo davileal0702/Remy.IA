@@ -131,6 +131,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin: 14px 0 6px; }
 .card { position: relative; background: rgba(12, 9, 7, .55); border: 1px solid var(--linha); border-radius: 14px; padding: 16px; font-size: 14px; }
 .card::before { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(217, 178, 106, .1); border-radius: 10px; pointer-events: none; }
+.refeicao { display: block; margin-bottom: 4px; font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--dourado); }
 .card h4 { margin: 0 0 10px; font-family: var(--serif); font-weight: 500; font-size: 19px; color: var(--creme); line-height: 1.25; }
 .card p { display: flex; gap: 8px; align-items: flex-start; margin: 8px 0; }
 .card p .ic { width: 16px; height: 16px; margin-top: 3px; }
@@ -147,25 +148,6 @@ summary::-webkit-details-marker { display: none; }
 summary .ic { width: 16px; height: 16px; }
 details ol { padding-left: 20px; margin: 10px 0 0; color: var(--texto); }
 details li { margin-bottom: 4px; }
-
-/* Cardápio: papel de menu de restaurante */
-.cardapio {
-  margin: 14px 0 6px; padding: 26px 26px 20px; border-radius: 6px; color: #2a211b; text-align: center;
-  background: radial-gradient(circle at 50% 0%, #fbf5e8, #efe3cc); box-shadow: var(--sombra);
-  outline: 1px solid #b8955a; outline-offset: -10px;
-}
-.cardapio .sobretitulo { color: #8a6a3a; margin: 0; }
-.cardapio h5 { margin: 4px 0 10px; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 30px; color: #3a2a1d; }
-.cardapio .ornamento i { background: #b8955a; }
-.cardapio .ornamento b { background: #b8955a; }
-.prato { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; text-align: left; padding: 14px 4px 0; }
-.prato small { grid-column: 1 / -1; font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: #8a6a3a; }
-.prato .linha-prato { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 8px; }
-.prato strong { font-family: var(--serif); font-weight: 500; font-size: 18px; color: #2a211b; }
-.prato .pontilhado { flex: 1; border-bottom: 1.5px dotted #b8955a; transform: translateY(-4px); }
-.prato span { font-size: 13px; color: #6b5a48; white-space: nowrap; }
-.cardapio-total { margin-top: 18px; padding-top: 12px; border-top: 1px solid #d8c6a4; font-size: 13px; color: #6b5a48; letter-spacing: 1px; }
-.cardapio-total b { font-family: var(--serif); font-size: 18px; color: #7a1f2b; }
 
 .pensando { display: inline-flex; align-items: center; gap: 4px; font-style: italic; color: var(--suave); }
 .pontinhos::after { content: ""; animation: pontos 1.2s steps(4) infinite; }
@@ -244,7 +226,6 @@ dialog::backdrop { background: rgba(8, 6, 5, .7); backdrop-filter: blur(4px); }
   .sugestoes { grid-template-columns: 1fr; }
   .bolha { max-width: 90%; }
   .avatar { width: 36px; height: 36px; }
-  .cardapio { padding: 22px 16px 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

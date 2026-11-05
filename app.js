@@ -36,6 +36,7 @@ function md(t) {
 function renderReceita(r) {
   const falta = r.falta || [];
   return `<article class="card">
+    ${r.refeicao ? `<span class="refeicao">${esc(r.refeicao)}</span>` : ""}
     <h4>${esc(r.nome)}</h4>
     <div class="tags">
       ${r.minutos != null ? `<span class="tag">${ic("relogio")}${esc(r.minutos)} min</span>` : ""}
@@ -48,17 +49,13 @@ function renderReceita(r) {
   </article>`;
 }
 
-function renderCardapio(c) {
-  const itens = c.itens || [];
-  const total = c.total_calorias ?? itens.reduce((s, i) => s + (i.calorias || 0), 0);
-  return `<div class="cardapio">
-    <p class="sobretitulo">Chez Remy</p>
-    <h5>Menu du jour</h5>
-    <div class="ornamento"><i></i><b></b><i></i></div>
-    ${itens.map(i => `<div class="prato"><small>${esc(i.refeicao)}</small>
-      <div class="linha-prato"><strong>${esc(i.nome)}</strong><i class="pontilhado"></i><span>${Math.round(i.calorias || 0)} kcal</span></div></div>`).join("")}
-    <div class="cardapio-total">TOTAL <b>${Math.round(total)}</b>${c.meta_calorias ? ` de ${esc(c.meta_calorias)}` : ""} kcal</div>
-  </div>`;
+// Cardápio vira cards: cada item do cardápio usa a receita completa (se veio) e ganha o rótulo da refeição.
+function cardsDoCardapio(d) {
+  const receitas = d.receitas || [];
+  return (d.cardapio.itens || []).map(i => ({
+    ...(receitas.find(r => r.nome === i.nome) || { nome: i.nome, calorias: i.calorias }),
+    refeicao: i.refeicao,
+  }));
 }
 
 function renderMensagem(m) {
@@ -75,8 +72,8 @@ function renderMensagem(m) {
     el.innerHTML = `<span class="avatar">${Remy.svg(30)}</span>
       <div class="conteudo ${d.erro ? "erro" : ""}">
         ${md(d.texto || "")}
-        ${d.cardapio ? renderCardapio(d.cardapio) : ""}
-        ${d.receitas?.length ? `<div class="cards">${d.receitas.map(renderReceita).join("")}</div>` : ""}
+        ${(() => { const cards = d.cardapio ? cardsDoCardapio(d) : d.receitas || [];
+          return cards.length ? `<div class="cards">${cards.map(renderReceita).join("")}</div>` : ""; })()}
       </div>`;
   }
   return el;
