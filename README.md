@@ -24,6 +24,7 @@ Para publicar no GitHub Pages: suba a pasta no repositório, vá em **Settings >
 | `app.js` | Chat, chips de ingredientes, histórico (salvo no `localStorage`) |
 | `api.js` | Conexão com o modelo |
 | `demo.js` | Respostas de exemplo enquanto o modelo não está no ar |
+| `apresentacao.js` | Conversa de exemplo na barra lateral e modo automático (`index.html?apresentacao`) |
 | `space/` | Modelo de Space do Hugging Face já compatível com o site |
 
 ## Conectando o modelo

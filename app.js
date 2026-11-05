@@ -9,7 +9,7 @@ let enviando = false;
 
 const entrada = $("#entrada"), chipsEl = $("#chips"), mensagensEl = $("#mensagens");
 
-const salvar = () => localStorage.setItem(CHAVE, JSON.stringify(conversas));
+let salvar = () => localStorage.setItem(CHAVE, JSON.stringify(conversas));
 const conversaAtual = () => conversas.find(c => c.id === atual);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const ic = nome => `<svg class="ic"><use href="#i-${nome}"/></svg>`;
