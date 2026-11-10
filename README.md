@@ -10,8 +10,7 @@ O usuário informa os ingredientes e o Remy sugere receitas, o que falta comprar
 ## Como abrir
 
 É um site estático (HTML, CSS e JavaScript puro, sem build). Basta abrir o `index.html` no navegador.
-
-Para publicar no GitHub Pages: suba a pasta no repositório, vá em **Settings > Pages** e escolha a branch `main`, pasta `/ (root)`.
+O site só responde com o modelo conectado (veja abaixo).
 
 ## Arquivos
 
@@ -21,29 +20,44 @@ Para publicar no GitHub Pages: suba a pasta no repositório, vá em **Settings >
 | `style.css` | Tema (cozinha escura premium, detalhes dourados) |
 | `assets/cozinha.svg` | Ilustração de fundo da cozinha |
 | `remy.js` | Mascote em pixel art (ratinho chef com colher de pau) |
-| `app.js` | Chat, chips de ingredientes, histórico (salvo no `localStorage`) |
+| `app.js` | Chat, chips de ingredientes, "Minha geladeira", cards e histórico (salvos no `localStorage`) |
 | `api.js` | Conexão com o modelo |
-| `demo.js` | Respostas de exemplo enquanto o modelo não está no ar |
-| `apresentacao.js` | Conversa de exemplo na barra lateral e modo automático (`index.html?apresentacao`) |
-| `space/` | Modelo de Space do Hugging Face já compatível com o site |
+| `space/` | Modelo de Space do Hugging Face no formato que o site espera |
+
+## Funções do site
+
+- **Chat** com histórico de conversas na barra lateral.
+- **Chips de ingredientes**: a vírgula transforma o texto em ingrediente.
+- **Receitas** ou **Cardápio do dia** (café, prato principal, acompanhamento e sobremesa) com meta de calorias.
+- **Minha geladeira**: lista do que o usuário tem em casa. Abre sozinha na primeira visita (dá para pular). Pergunta o tipo quando o ingrediente é genérico (farinha, fermento, queijo, feijão, chocolate, milho, pimenta). As sugestões da tela inicial passam a usar essa lista, e o botão **Usar minha geladeira** coloca tudo nos chips.
+- **Cards de receita**: tempo, nota, calorias, o que tem, o que falta comprar, modo de preparo e etiqueta "Brasileira". Receitas do mesmo tipo podem vir num card só, com botões para trocar de variante.
 
 ## Conectando o modelo
 
 No site, clique em **⚙ Conectar modelo** e escolha a fonte:
 
-1. **Demonstração**: usa 13 receitas de exemplo. É o padrão.
-2. **Hugging Face Space (Gradio)**, recomendado: o Space roda o pipeline completo (normalização, busca RAG com FAISS e o LLM com LoRA). Informe o ID do Space (ex.: `usuario/remy-ia`) e o endpoint (`/responder`).
-3. **API compatível com OpenAI**: para falar direto com o LLM ajustado (Hugging Face Inference Endpoints/TGI, vLLM, Ollama). Informe a URL base terminando em `/v1`. Esse modo **não faz a busca RAG**, só conversa com o modelo.
+1. **Gradio: Colab ou Hugging Face Space**, recomendado: o servidor roda o pipeline completo (busca RAG + LLM). Informe o link do Colab (`https://xxxx.gradio.live`) ou o ID do Space (ex.: `usuario/remy-ia`) e o endpoint (`/responder`).
+2. **API compatível com OpenAI** (Hugging Face Inference Endpoints/TGI, vLLM, Ollama, Groq): fala direto com o LLM. Informe a URL base terminando em `/v1`. Esse modo **não faz a busca RAG**.
+
+O token digitado em **Conectar modelo** fica salvo só no navegador de quem usa. Num site público, não deixe token no código: prefira um Space público.
+
+### Testando pelo Colab
+
+1. No notebook da LLM, sirva a função de resposta com Gradio no endpoint `/responder` e `launch(share=True)`.
+2. A célula mostra um link `https://xxxx.gradio.live`.
+3. No site: **Conectar modelo** > *Gradio: Colab ou Hugging Face Space* > cole o link > endpoint `/responder` > Salvar.
+
+O link vale enquanto o Colab estiver aberto. Se a sessão cair, rode de novo e cole o link novo.
 
 ### Subindo o Space
 
 1. Crie um Space novo no Hugging Face com SDK **Gradio**.
 2. Envie os arquivos de `space/` (`app.py` e `requirements.txt`).
-3. Troque o corpo da função `responder` em `app.py` pelo pipeline do Colab.
+3. Troque o corpo da função `responder` em `app.py` pelo pipeline da LLM.
 
 ## Contrato de dados
 
-O site envia para o Space (endpoint `/responder`) um texto JSON:
+O site envia para o endpoint `/responder` um texto JSON:
 
 ```json
 {
@@ -57,7 +71,7 @@ O site envia para o Space (endpoint `/responder`) um texto JSON:
 
 `modo` é `"receitas"` ou `"cardapio"`.
 
-O Space devolve um texto JSON. Todos os campos são opcionais; se vier texto puro, ele aparece como mensagem normal.
+O servidor devolve um texto JSON. Todos os campos são opcionais; se vier texto puro, ele aparece como mensagem normal.
 
 ```json
 {
@@ -68,9 +82,17 @@ O Space devolve um texto JSON. Todos os campos são opcionais; se vier texto pur
       "minutos": 30,
       "nota": 4.5,
       "calorias": 320,
+      "brasileira": false,
       "tem": ["arroz", "tomate"],
       "falta": ["caldo de legumes"],
       "passos": ["Refogue a cebola...", "Junte o arroz..."]
+    },
+    {
+      "grupo": "Arroz",
+      "variantes": [
+        { "rotulo": "Com frango", "nome": "Arroz com frango", "minutos": 40, "tem": ["arroz", "frango"], "falta": [] },
+        { "rotulo": "De forno", "nome": "Arroz de forno", "minutos": 50, "tem": ["arroz"], "falta": ["queijo"] }
+      ]
     }
   ],
   "cardapio": {
@@ -81,8 +103,6 @@ O Space devolve um texto JSON. Todos os campos são opcionais; se vier texto pur
 }
 ```
 
-`receitas` vira cards. No cardápio, cada item de `cardapio.itens` vira um card com o rótulo da refeição (usa a receita de mesmo `nome` em `receitas`, se houver).
-
-## Teste rápido
-
-Abra o console do navegador e rode `RemyDemo._teste()`. Deve retornar `"ok"` sem avisos.
+- Cada item de `receitas` vira um card. `brasileira: true` mostra a etiqueta "Brasileira".
+- Um item com `variantes` (2 ou mais) vira um card só, com o título `grupo` e um botão por variante (`rotulo`, ou `nome` se não tiver). Cada variante usa os mesmos campos de uma receita.
+- No cardápio, cada item de `cardapio.itens` vira um card com o rótulo da refeição (usa a receita de mesmo `nome` em `receitas`, se houver).

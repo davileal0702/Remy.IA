@@ -9,7 +9,7 @@ let enviando = false;
 
 const entrada = $("#entrada"), chipsEl = $("#chips"), mensagensEl = $("#mensagens");
 
-let salvar = () => localStorage.setItem(CHAVE, JSON.stringify(conversas));
+const salvar = () => localStorage.setItem(CHAVE, JSON.stringify(conversas));
 const conversaAtual = () => conversas.find(c => c.id === atual);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const ic = nome => `<svg class="ic"><use href="#i-${nome}"/></svg>`;
@@ -33,19 +33,31 @@ function md(t) {
   return lista ? html + `</${lista}>` : html;
 }
 
-function renderReceita(r) {
+function corpoReceita(r) {
   const falta = r.falta || [];
-  return `<article class="card">
-    ${r.refeicao ? `<span class="refeicao">${esc(r.refeicao)}</span>` : ""}
-    <h4>${esc(r.nome)}</h4>
+  return `<h4>${esc(r.nome)}</h4>
     <div class="tags">
       ${r.minutos != null ? `<span class="tag">${ic("relogio")}${esc(r.minutos)} min</span>` : ""}
       ${r.nota != null ? `<span class="tag">${ic("estrela")}${nota(r.nota)}</span>` : ""}
       ${r.calorias != null ? `<span class="tag">${ic("fogo")}${Math.round(r.calorias)} kcal</span>` : ""}
+      ${r.brasileira ? `<span class="tag">${ic("chapeu")}Brasileira</span>` : ""}
     </div>
     ${r.tem?.length ? `<p class="tem">${ic("talheres")}<span><b>Você tem:</b> ${r.tem.map(esc).join(", ")}</span></p>` : ""}
     ${falta.length ? `<p class="falta">${ic("cesta")}<span><b>Falta comprar:</b> ${falta.map(esc).join(", ")}</span></p>` : `<p class="ok">${ic("check")}<span>Tem tudo! Pode ir pro fogão.</span></p>`}
-    ${r.passos?.length ? `<details><summary>${ic("livro")}Modo de preparo</summary><ol>${r.passos.map(p => `<li>${esc(p)}</li>`).join("")}</ol></details>` : ""}
+    ${r.passos?.length ? `<details><summary>${ic("livro")}Modo de preparo</summary><ol>${r.passos.map(p => `<li>${esc(p)}</li>`).join("")}</ol></details>` : ""}`;
+}
+
+// Receitas do mesmo tipo (ex.: 3 tipos de arroz) chegam num card só, com "variantes" para o usuário escolher.
+function renderReceita(r) {
+  const vs = r.variantes || [];
+  if (vs.length < 2) {
+    return `<article class="card">${r.refeicao ? `<span class="refeicao">${esc(r.refeicao)}</span>` : ""}${corpoReceita(r)}</article>`;
+  }
+  return `<article class="card grupo">
+    <span class="refeicao">${esc(r.grupo || "Receita")} · ${vs.length} variantes</span>
+    <div class="variantes" role="tablist">${vs.map((v, i) =>
+      `<button type="button" class="variante-btn ${i ? "" : "ativo"}" data-variante="${i}" title="${esc(v.nome)}">${esc(v.rotulo || v.nome)}</button>`).join("")}</div>
+    ${vs.map((v, i) => `<div class="variante" data-v="${i}" ${i ? "hidden" : ""}>${corpoReceita(v)}</div>`).join("")}
   </article>`;
 }
 
@@ -101,8 +113,8 @@ function renderChips() {
 
 function renderStatus() {
   const c = RemyAPI.config();
-  $("#status").innerHTML = c.modo === "demo" ? `<i class="ponto demo"></i>Modo demonstração`
-    : `<i class="ponto on"></i>${esc(c.modo === "gradio" ? c.space : c.url) || "Sem endereço"}`;
+  const endereco = c.modo === "openai" ? c.url : c.space;
+  $("#status").innerHTML = endereco ? `<i class="ponto on"></i>${esc(endereco)}` : `<i class="ponto demo"></i>Modelo não conectado`;
 }
 
 const rolar = () => { const chat = $("#chat"); chat.scrollTop = chat.scrollHeight; };
@@ -183,11 +195,22 @@ chipsEl.addEventListener("click", e => {
   if (i != null) { chips.splice(+i, 1); renderChips(); entrada.focus(); }
 });
 document.querySelectorAll(".seg-btn").forEach(b => b.addEventListener("click", () => setModo(b.dataset.modo)));
-document.querySelectorAll(".sugestao").forEach(b => b.addEventListener("click", () => {
+$("#sugestoes").addEventListener("click", e => {
+  const b = e.target.closest(".sugestao");
+  if (!b) return;
+  if (b.dataset.acao === "geladeira") return abrirGeladeira();
   chips = []; b.dataset.ing.split(",").forEach(addChip); renderChips();
+  entrada.value = b.dataset.msg || ""; ajustarAltura();
   setModo(b.dataset.modo || "receitas");
   enviar();
-}));
+});
+mensagensEl.addEventListener("click", e => {
+  const b = e.target.closest(".variante-btn");
+  if (!b) return;
+  const card = b.closest(".card");
+  card.querySelectorAll(".variante-btn").forEach(x => x.classList.toggle("ativo", x === b));
+  card.querySelectorAll(".variante").forEach(v => { v.hidden = v.dataset.v !== b.dataset.variante; });
+});
 $("#btnNova").addEventListener("click", () => { abrir(null); entrada.focus(); });
 $("#listaConversas").addEventListener("click", e => {
   const apagar = e.target.closest("[data-apagar]")?.dataset.apagar;
@@ -219,7 +242,105 @@ dlg.addEventListener("close", () => {
   renderStatus();
 });
 
+// Minha geladeira: ingredientes que o usuário tem em casa, guardados neste navegador.
+const CHAVE_GELADEIRA = "remy.geladeira", CHAVE_ONBOARDING = "remy.onboarding";
+const COMUNS = ["ovo", "arroz", "feijão preto", "feijão carioca", "frango", "carne moída", "batata", "cebola", "alho", "tomate",
+  "cenoura", "leite", "muçarela", "queijo minas", "parmesão", "manteiga", "farinha de trigo", "polvilho", "farinha de mandioca",
+  "fubá", "açúcar", "macarrão", "banana", "limão", "pão", "presunto", "mandioca", "milho verde", "creme de leite",
+  "leite condensado", "chocolate em pó", "fermento químico", "fermento biológico", "linguiça", "abobrinha"];
+// Ingredientes com tipos que mudam a receita: o Remy pergunta qual é.
+const TIPOS = {
+  farinha: ["farinha de trigo", "farinha de mandioca", "polvilho", "fubá", "farinha de milho", "farinha de arroz", "farinha de aveia", "farinha de rosca"],
+  fermento: ["fermento químico", "fermento biológico"],
+  queijo: ["muçarela", "queijo prato", "parmesão", "queijo minas", "requeijão", "cream cheese", "ricota"],
+  feijao: ["feijão preto", "feijão carioca", "feijão branco", "feijão vermelho", "feijão fradinho"],
+  chocolate: ["chocolate ao leite", "chocolate meio amargo", "chocolate branco", "chocolate em pó", "gotas de chocolate"],
+  milho: ["milho verde", "fubá", "amido de milho", "pipoca", "canjica"],
+  pimenta: ["pimenta-do-reino", "pimenta dedo-de-moça", "pimenta calabresa", "pimentão"],
+};
+const chaveTipo = t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().replace(/s$/, "");
+let geladeira = JSON.parse(localStorage.getItem(CHAVE_GELADEIRA) || "[]");
+let rascunho = [];
+const dlgG = $("#dlgGeladeira"), entradaG = $("#entradaGeladeira");
+
+const EXEMPLOS = [
+  { titulo: "Jantar com o que sobrou", ing: "frango, arroz, tomate, cebola, alho", icone: "frigideira" },
+  { titulo: "Café da manhã rápido", ing: "ovo, leite, farinha, queijo", icone: "xicara" },
+  { titulo: "Massa em 20 minutos", ing: "macarrão, alho, queijo, salsinha", icone: "panela" },
+  { titulo: "Cardápio do dia", ing: "carne, batata, cebola, ovo, banana, açúcar", icone: "cloche", modo: "cardapio" },
+];
+
+function renderSugestoes() {
+  const minha = geladeira.join(", ");
+  const lista = geladeira.length ? [
+    { titulo: "O que dá para fazer?", ing: minha, icone: "frigideira" },
+    { titulo: "Algo rápido", ing: minha, msg: "algo rápido", icone: "relogio" },
+    { titulo: "Receitas brasileiras", ing: minha, msg: "receitas brasileiras", icone: "chapeu" },
+    { titulo: "Cardápio do dia", ing: minha, icone: "cloche", modo: "cardapio" },
+  ] : EXEMPLOS;
+  $("#sugestoes").innerHTML = lista.map(x => `<button class="sugestao" data-ing="${esc(x.ing)}" data-msg="${esc(x.msg || "")}" data-modo="${x.modo || "receitas"}">
+      ${ic(x.icone)}<span><b>${esc(x.titulo)}</b><small>${esc(x.ing)}</small></span></button>`).join("");
+  const aviso = $("#geladeiraAviso");
+  aviso.hidden = false;
+  aviso.innerHTML = geladeira.length
+    ? `<span>${ic("cesta")} <b>Sua geladeira:</b> ${geladeira.length} ingredientes</span><button type="button" data-acao="editar">Editar</button>`
+    : `<span>Quer sugestões com o que <b>você</b> tem? Os cards abaixo são só exemplos.</span><button type="button" data-acao="editar">Montar minha geladeira</button>`;
+  $("#usarGeladeira").hidden = !geladeira.length;
+}
+
+function renderGeladeira() {
+  $("#chipsGeladeira").innerHTML = rascunho.map((c, i) => `<span class="chip ${TIPOS[chaveTipo(c)] ? "duvida" : ""}">${esc(c)}<button type="button" data-tirar="${i}" aria-label="Remover ${esc(c)}">${ic("fechar")}</button></span>`).join("");
+  const duvidas = rascunho.map((c, i) => [c, i]).filter(([c]) => TIPOS[chaveTipo(c)]);
+  $("#tiposGeladeira").innerHTML = duvidas.map(([c, i]) => `<div class="tipo-pergunta"><span>Qual <b>${esc(c)}</b>? O tipo muda a receita.</span>
+    <div class="comuns">${TIPOS[chaveTipo(c)].map(o => `<button type="button" class="comum" data-trocar="${i}" data-por="${esc(o)}">${esc(o)}</button>`).join("")}</div></div>`).join("");
+  const tem = new Set(rascunho.map(x => x.toLowerCase()));
+  $("#comunsGeladeira").innerHTML = COMUNS.filter(c => !tem.has(c)).map(c => `<button type="button" class="comum" data-add="${esc(c)}">+ ${esc(c)}</button>`).join("");
+}
+function addGeladeira(t) {
+  t = t.trim();
+  if (t && !rascunho.some(x => x.toLowerCase() === t.toLowerCase())) rascunho.push(t);
+}
+function abrirGeladeira() {
+  rascunho = [...geladeira]; entradaG.value = ""; renderGeladeira(); dlgG.showModal(); entradaG.focus();
+}
+entradaG.addEventListener("input", () => {
+  if (!entradaG.value.includes(",")) return;
+  const partes = entradaG.value.split(",");
+  entradaG.value = partes.pop().trimStart();
+  partes.forEach(addGeladeira); renderGeladeira();
+});
+entradaG.addEventListener("keydown", e => {
+  if (e.key === "Enter") { e.preventDefault(); addGeladeira(entradaG.value); entradaG.value = ""; renderGeladeira(); }
+  else if (e.key === "Backspace" && !entradaG.value && rascunho.length) { rascunho.pop(); renderGeladeira(); }
+});
+dlgG.addEventListener("click", e => {
+  const tirar = e.target.closest("[data-tirar]")?.dataset.tirar;
+  if (tirar != null) { rascunho.splice(+tirar, 1); renderGeladeira(); entradaG.focus(); }
+  const trocar = e.target.closest("[data-trocar]");
+  if (trocar) {
+    const por = trocar.dataset.por, i = +trocar.dataset.trocar;
+    if (rascunho.some(x => x.toLowerCase() === por.toLowerCase())) rascunho.splice(i, 1); else rascunho[i] = por;
+    renderGeladeira(); return;
+  }
+  const add = e.target.closest("[data-add]")?.dataset.add;
+  if (add) { addGeladeira(add); renderGeladeira(); }
+});
+dlgG.addEventListener("close", () => {
+  localStorage.setItem(CHAVE_ONBOARDING, dlgG.returnValue === "ok" ? "feito" : "depois");
+  if (dlgG.returnValue !== "ok") return;
+  addGeladeira(entradaG.value);
+  geladeira = rascunho;
+  localStorage.setItem(CHAVE_GELADEIRA, JSON.stringify(geladeira));
+  renderSugestoes();
+});
+$("#btnGeladeira").addEventListener("click", () => { document.body.classList.remove("menu-aberto"); abrirGeladeira(); });
+$("#geladeiraAviso").addEventListener("click", e => { if (e.target.closest("[data-acao]")) abrirGeladeira(); });
+$("#usarGeladeira").addEventListener("click", () => { geladeira.forEach(addChip); renderChips(); entrada.focus(); });
+
 // Início
 Remy.montar();
+renderSugestoes();
+// Primeira visita: pergunta o que tem na geladeira (dá para pular).
+if (!localStorage.getItem(CHAVE_ONBOARDING)) abrirGeladeira();
 $("#favicon").href = "data:image/svg+xml," + encodeURIComponent(Remy.svg(64).replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"'));
 renderLista(); renderChat(); renderStatus();

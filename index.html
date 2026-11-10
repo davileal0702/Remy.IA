@@ -45,6 +45,7 @@
     <p class="side-label"><span>Caderno de receitas</span></p>
     <nav class="conversas" id="listaConversas"></nav>
     <div class="side-footer">
+      <button class="btn-ghost" id="btnGeladeira"><svg class="ic"><use href="#i-cesta"/></svg>Minha geladeira</button>
       <button class="btn-ghost" id="btnConfig"><svg class="ic"><use href="#i-batedor"/></svg>Conectar modelo</button>
       <div class="status" id="status"></div>
     </div>
@@ -64,24 +65,8 @@
         <h1>Qualquer um pode cozinhar.</h1>
         <div class="ornamento"><i></i><b></b><i></i></div>
         <p class="subtitulo">Me conte o que tem na geladeira e eu sugiro o que fazer.</p>
-        <div class="sugestoes">
-          <button class="sugestao" data-ing="frango, arroz, tomate, cebola, alho">
-            <svg class="ic"><use href="#i-frigideira"/></svg>
-            <span><b>Jantar com o que sobrou</b><small>frango, arroz, tomate, cebola, alho</small></span>
-          </button>
-          <button class="sugestao" data-ing="ovo, leite, farinha, queijo">
-            <svg class="ic"><use href="#i-xicara"/></svg>
-            <span><b>Café da manhã rápido</b><small>ovo, leite, farinha, queijo</small></span>
-          </button>
-          <button class="sugestao" data-ing="macarrão, alho, queijo, salsinha">
-            <svg class="ic"><use href="#i-panela"/></svg>
-            <span><b>Massa em 20 minutos</b><small>macarrão, alho, queijo, salsinha</small></span>
-          </button>
-          <button class="sugestao" data-ing="carne, batata, cebola, ovo, banana, açúcar" data-modo="cardapio">
-            <svg class="ic"><use href="#i-cloche"/></svg>
-            <span><b>Cardápio do dia</b><small>carne, batata, cebola, ovo, banana...</small></span>
-          </button>
-        </div>
+        <div class="geladeira-aviso" id="geladeiraAviso" hidden></div>
+        <div class="sugestoes" id="sugestoes"></div>
       </div>
       <div class="mensagens" id="mensagens"></div>
     </section>
@@ -92,6 +77,7 @@
           <button type="button" class="seg-btn ativo" data-modo="receitas"><svg class="ic"><use href="#i-frigideira"/></svg>Receitas</button>
           <button type="button" class="seg-btn" data-modo="cardapio"><svg class="ic"><use href="#i-cloche"/></svg>Cardápio do dia</button>
         </div>
+        <button type="button" class="pill-geladeira" id="usarGeladeira" hidden><svg class="ic"><use href="#i-cesta"/></svg>Usar minha geladeira</button>
         <label class="meta" id="meta" hidden>
           <svg class="ic"><use href="#i-fogo"/></svg>Meta <input type="number" id="metaCalorias" value="2000" min="500" max="5000" step="50"> kcal
         </label>
@@ -111,13 +97,12 @@
       <div class="ornamento"><i></i><b></b><i></i></div>
       <label>Fonte das respostas
         <select id="cfgModo">
-          <option value="demo">Demonstração (receitas de exemplo, sem modelo)</option>
-          <option value="gradio">Hugging Face Space (Gradio) · recomendado</option>
+          <option value="gradio">Gradio: Colab ou Hugging Face Space · recomendado</option>
           <option value="openai">API compatível com OpenAI (TGI, Inference Endpoints, vLLM, Ollama)</option>
         </select>
       </label>
       <div data-para="gradio">
-        <label>ID do Space <input id="cfgSpace" placeholder="usuario/remy-ia"></label>
+        <label>ID do Space ou link do Colab <input id="cfgSpace" placeholder="usuario/remy-ia ou https://xxxx.gradio.live"></label>
         <label>Endpoint <input id="cfgEndpoint" placeholder="/responder"></label>
       </div>
       <div data-para="openai">
@@ -135,10 +120,27 @@
     </form>
   </dialog>
 
+  <dialog id="dlgGeladeira">
+    <form method="dialog" class="config geladeira">
+      <h2>O que tem na sua geladeira?</h2>
+      <div class="ornamento"><i></i><b></b><i></i></div>
+      <p class="aviso centro">Liste o que você tem em casa. O Remy usa esses ingredientes nas sugestões. Dá para mudar quando quiser.</p>
+      <div class="composer geladeira-campo">
+        <div class="chips" id="chipsGeladeira"></div>
+        <input id="entradaGeladeira" placeholder="Digite e aperte vírgula ou Enter..." autocomplete="off">
+      </div>
+      <div id="tiposGeladeira"></div>
+      <p class="side-label geladeira-label"><span>Toque para adicionar</span></p>
+      <div class="comuns" id="comunsGeladeira"></div>
+      <menu>
+        <button value="depois" class="btn-sec" id="geladeiraDepois">Deixar para depois</button>
+        <button value="ok" class="btn-primario">Salvar geladeira</button>
+      </menu>
+    </form>
+  </dialog>
+
   <script src="remy.js"></script>
-  <script src="demo.js"></script>
   <script src="api.js"></script>
   <script src="app.js"></script>
-  <script src="apresentacao.js"></script>
 </body>
 </html>

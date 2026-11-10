@@ -1,7 +1,7 @@
 // Ponte entre a interface e o modelo. Veja o contrato de dados no README.
 const RemyAPI = (() => {
   const CHAVE = "remy.config";
-  const PADRAO = { modo: "demo", space: "", endpoint: "/responder", url: "", modelo: "tgi", token: "" };
+  const PADRAO = { modo: "gradio", space: "", endpoint: "/responder", url: "", modelo: "tgi", token: "" };
   const SISTEMA = "Você é o Remy, um chef que sugere receitas em português a partir dos ingredientes que o usuário tem. " +
     "Diga o nome da receita, tempo, ingredientes, modo de preparo e o que falta comprar.";
 
@@ -20,9 +20,10 @@ const RemyAPI = (() => {
   }
 
   async function viaGradio(pedido, c) {
-    if (!c.space) throw new Error("Informe o ID do Space em Conectar modelo.");
+    if (!c.space) throw new Error("Informe o ID do Space ou o link do Colab (gradio.live) em Conectar modelo.");
     const { Client } = await import("https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js");
-    const app = await Client.connect(c.space, c.token ? { hf_token: c.token } : {});
+    // Aceita "usuario/space" ou um link completo, como o https://xxxx.gradio.live que o Colab gera.
+    const app = await Client.connect(c.space.replace(/\/+$/, ""), c.token ? { hf_token: c.token } : {});
     const r = await app.predict(c.endpoint || "/responder", [JSON.stringify(pedido)]);
     return interpretar(r.data[0]);
   }
@@ -48,10 +49,8 @@ const RemyAPI = (() => {
 
   async function responder(pedido) {
     const c = config();
-    if (c.modo === "gradio") return viaGradio(pedido, c);
-    if (c.modo === "openai") return viaOpenAI(pedido, c);
-    await new Promise(r => setTimeout(r, 900));
-    return RemyDemo.responder(pedido);
+    // Qualquer outro valor salvo (ex.: o antigo "demo") cai no Gradio.
+    return c.modo === "openai" ? viaOpenAI(pedido, c) : viaGradio(pedido, c);
   }
 
   return { responder, config, salvarConfig };
