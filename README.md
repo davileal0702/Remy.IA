@@ -29,7 +29,7 @@ site (este repositório)  ──JSON──▶  notebook no Colab (Gradio /respon
 | `assets/cozinha.svg` | Ilustração de fundo |
 | `notebooks/RemyIA_Coleta_TudoGostoso.ipynb` | Coleta as receitas do TudoGostoso e salva a base no Google Drive |
 | `notebooks/RemyIA_Final.ipynb` | O cérebro: base + TACO + busca + Qwen3.5-2B, servindo o site pelo Gradio |
-| `dados/taco/` | Tabela TACO (alimentos e calorias) usada para estimar as calorias. Veja abaixo |
+| `dados/taco/` | Tabela TACO e complementos do IBGE, usados para estimar as calorias. Veja abaixo |
 | `space/` | Modelo de Space do Hugging Face (ainda **não** tem o pipeline final; use o notebook) |
 
 ## Rodando
@@ -48,6 +48,8 @@ As calorias vêm da **TACO** (Tabela Brasileira de Composição de Alimentos, 4�
 - `nutrients.csv`: os nutrientes de cada alimento (o Remy usa as kcal por 100 g).
 
 A cópia foi feita do projeto aberto [taco-api](https://github.com/raulfdm/taco-api) (licença MIT, em `dados/taco/LICENSE-taco-api.md`), que converteu a tabela oficial para CSV.
+
+O que a TACO não tem (ketchup, bacon, cream cheese, vinho, sorvete, salsicha...) está em `dados/taco/complementos.csv`, com valores da tabela do **IBGE** (POF 2008-2009) e o código de cada item. A estimativa é uma aproximação: medidas caseiras e porções variam, e a margem de erro não foi medida.
 No `RemyIA_Final.ipynb`, a seção 4 lê a tabela desta pasta pelo GitHub; se não conseguir, baixa direto do taco-api.
 A seção converte cada ingrediente em gramas, liga ao alimento da TACO e divide pelas porções. Sem 60% dos ingredientes reconhecidos, a receita fica sem estimativa.
 

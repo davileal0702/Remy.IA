@@ -1,0 +1,33 @@
+ingrediente,kcal_100g,alimento_na_fonte,codigo_ibge,observacao
+leite,60.03,Leite de vaca integral,7900101,TACO tem o item mas sem kcal
+leite desnatado,34.15,Leite de vaca desnatado,7903601,TACO tem o item mas sem kcal
+ketchup,97.00,Ketchup,7004802,
+bacon,541.00,Bacon,8101005,
+cream cheese,209.66,Creme de queijo,7007502,
+vinho,84.50,Vinho,8302415,
+vinho tinto,84.50,Vinho,8302415,
+vinho branco,84.50,Vinho,8302415,
+vinho tinto seco,84.50,Vinho,8302415,
+vinho branco seco,84.50,Vinho,8302415,
+vinho tinto suave,84.50,Vinho,8302415,
+vinho do porto,84.50,Vinho,8302415,aproximação: vinho do Porto é licoroso e tem mais calorias
+licor,282.65,Licor de qualquer sabor,8301901,
+licor de cacau,282.65,Licor de qualquer sabor,8301901,
+licor de laranja,282.65,Licor de qualquer sabor,8301901,
+licor de menta,282.65,Licor de qualquer sabor,8301901,
+sorvete,206.00,Sorvete de qualquer sabor industrializado,6900501,
+sorvete de creme,206.00,Sorvete de qualquer sabor industrializado,6900501,
+salsicha,321.05,Salsicha no varejo,8102101,
+champignon,50.74,Champignon em conserva,7700602,
+chocolate em po,364.24,Chocolate em pó de qualquer marca,6900801,
+chocolate em po soluvel,364.24,Chocolate em pó de qualquer marca,6900801,
+peito de peru,140.00,Peito de peru,7801801,
+peito de peru defumado,140.00,Peito de peru,7801801,
+chantilly,276.39,Chantilly,7901101,
+cereja,63.00,Cereja,6804501,aproximação: cereja em calda tem mais açúcar
+cereja em calda,63.00,Cereja,6804501,aproximação: cereja em calda tem mais açúcar
+fruta cristalizada,291.30,Doce de frutas cristalizado de qualquer sabor,6901401,
+uva passa,299.00,Uva passa,6803912,
+nescafe,241.00,Nescafé,8202602,
+cafe soluvel,241.00,Nescafé,8202602,
+granulado,492.00,Confete,6900706,aproximação: a tabela não tem chocolate granulado; usamos o confeito de chocolate
