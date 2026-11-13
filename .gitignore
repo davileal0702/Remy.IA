@@ -1,0 +1,5 @@
+# Dados coletados (não publicado, só no Drive do grupo)
+RemyIA_dados/
+*.jsonl
+receitas_tudogostoso.*
+urls_receitas.csv
