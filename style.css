@@ -110,10 +110,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .sugestao span { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .sugestao b { font-family: var(--serif); font-weight: 500; font-size: 17px; color: var(--creme); }
 .sugestao small { color: var(--suave); font-size: 13px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.sugestao { align-items: center; }
 .sugestao:hover { transform: translateY(-2px); border-color: var(--linha-forte); background: var(--painel-forte); }
 
 /* Mensagens */
-.mensagens { max-width: 800px; margin: 0 auto; padding: 28px 22px 8px; }
+.mensagens { max-width: 900px; margin: 0 auto; padding: 28px 22px 8px; }
 .msg { display: flex; gap: 14px; margin-bottom: 26px; animation: surgir .35s ease-out; }
 .msg.user { justify-content: flex-end; }
 .bolha { max-width: 78%; background: linear-gradient(180deg, rgba(200, 121, 74, .28), rgba(200, 121, 74, .16)); border: 1px solid rgba(200, 121, 74, .4); border-radius: 18px 18px 4px 18px; padding: 12px 14px; backdrop-filter: blur(10px); }
@@ -128,7 +129,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .conteudo.erro { border-color: rgba(224, 119, 95, .5); }
 .conteudo.erro p { color: var(--tomate); }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin: 14px 0 6px; }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 14px 0 6px; }
 .card { position: relative; background: rgba(12, 9, 7, .55); border: 1px solid var(--linha); border-radius: 14px; padding: 16px; font-size: 14px; }
 .card::before { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(217, 178, 106, .1); border-radius: 10px; pointer-events: none; }
 .refeicao { display: block; margin-bottom: 4px; font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--dourado); }
@@ -148,6 +149,11 @@ summary::-webkit-details-marker { display: none; }
 summary .ic { width: 16px; height: 16px; }
 details ol { padding-left: 20px; margin: 10px 0 0; color: var(--texto); }
 details li { margin-bottom: 4px; }
+details h5 { margin: 14px 0 6px; font-family: var(--serif); font-weight: 500; font-size: 15px; color: var(--creme); }
+.lista-ing { margin: 0; padding-left: 18px; color: var(--texto); }
+.lista-ing li::marker { color: var(--dourado); }
+.tag small { color: var(--suave); font-size: 11px; }
+.fonte { margin: 10px 0 0; font-size: 11px; color: var(--suave); opacity: .8; }
 
 .pensando { display: inline-flex; align-items: center; gap: 4px; font-style: italic; color: var(--suave); }
 .pontinhos::after { content: ""; animation: pontos 1.2s steps(4) infinite; }
@@ -161,11 +167,93 @@ details li { margin-bottom: 4px; }
 .variante-btn.ativo { background: rgba(217, 178, 106, .16); border-color: var(--dourado); color: var(--creme); font-weight: 600; }
 .variante { animation: surgir .25s ease; }
 
+/* Escolher a receita (vira o nome no Caderno de receitas) */
+.btn-escolher { margin-top: 12px; display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 99px; border: 1px solid var(--linha-forte); background: none; color: var(--texto); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn-escolher:hover { border-color: var(--dourado); color: var(--creme); }
+.btn-escolher.ativo { background: rgba(122, 154, 106, .18); border-color: var(--verde); color: var(--verde); }
+.btn-escolher .ic { width: 15px; height: 15px; }
+.tag-tipo { display: inline-block; margin-bottom: 6px; padding: 2px 10px; border-radius: 99px; background: rgba(217, 178, 106, .16); color: var(--dourado); font-size: 12px; font-weight: 600; }
+.pouco { color: var(--cobre); }
+
+/* Receita escolhida */
+.receita-escolhida { padding: 22px 24px; border: 1px solid var(--dourado); border-radius: 20px; background: var(--painel-forte); box-shadow: 0 0 0 4px rgba(217, 178, 106, .06); }
+.rotulo-escolhida { display: flex; align-items: center; gap: 6px; margin: 0 0 4px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--dourado); }
+.rotulo-escolhida .ic { width: 16px; height: 16px; }
+.receita-escolhida h3 { margin: 0 0 10px; font-family: var(--serif); font-weight: 500; font-size: 26px; color: var(--creme); }
+.receita-escolhida h4 { display: flex; align-items: center; gap: 8px; margin: 18px 0 8px; font-family: var(--serif); font-weight: 500; font-size: 18px; color: var(--creme); }
+.receita-escolhida h4 small { font-family: var(--sans, inherit); font-size: 12px; color: var(--suave); }
+.receita-escolhida h5 { margin: 12px 0 4px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--dourado); }
+.porcoes-ctrl { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; color: var(--texto); }
+.porcoes-ctrl .ic { width: 16px; height: 16px; color: var(--dourado); }
+.porcoes-ctrl button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--linha-forte); background: rgba(0, 0, 0, .25); color: var(--creme); font: inherit; font-size: 18px; line-height: 1; cursor: pointer; }
+.porcoes-ctrl button:hover { border-color: var(--dourado); }
+.porcoes-ctrl b { min-width: 24px; text-align: center; font-size: 18px; color: var(--creme); }
+.porcoes-ctrl small { color: var(--suave); font-size: 12px; }
+.compras { margin-top: 14px; padding: 12px 16px; border-radius: 14px; border: 1px dashed var(--tomate); background: rgba(200, 80, 60, .07); }
+.compras h4 { margin: 0 0 6px; color: var(--tomate); font-size: 16px; }
+.compras ul { margin: 0; padding-left: 20px; color: var(--texto); }
+.checklist { display: flex; flex-direction: column; gap: 4px; }
+.check { display: flex; align-items: flex-start; gap: 12px; margin: 0 -8px; padding: 7px 8px; border-radius: 10px; cursor: pointer; color: var(--texto); transition: background .15s; }
+.check:hover { background: rgba(217, 178, 106, .06); }
+/* Caixinha no visual do site: contorno dourado; marcada, fica dourada com o ✓ escuro */
+.check input { appearance: none; -webkit-appearance: none; flex: none; width: 20px; height: 20px; margin: 1px 0 0; border: 1.5px solid var(--linha-forte);
+  border-radius: 6px; background: rgba(0, 0, 0, .25) center / 14px no-repeat; cursor: pointer; transition: background-color .15s, border-color .15s, transform .15s; }
+.check:hover input { border-color: var(--dourado); }
+.check input:focus-visible { outline: 2px solid var(--dourado); outline-offset: 2px; }
+.check input:checked { border-color: var(--dourado); background-color: var(--dourado); animation: marcar .25s ease-out;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d140c' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
+@keyframes marcar { 0% { transform: scale(.8); } 60% { transform: scale(1.12); } 100% { transform: scale(1); } }
+.check span { transition: color .2s; }
+.check.feito span { text-decoration: line-through; text-decoration-color: rgba(217, 178, 106, .6); color: var(--suave); }
+.passos { padding-left: 22px; color: var(--texto); }
+.passos li { margin-bottom: 8px; line-height: 1.5; }
+.dica { margin-top: 16px; padding: 12px 16px; border-left: 4px solid var(--dourado); border-radius: 0 12px 12px 0; background: rgba(217, 178, 106, .08); color: var(--creme); }
+.dica p { margin: 0; }
+.btn-timer { display: flex; align-items: center; gap: 6px; margin-top: 6px; padding: 5px 12px; border: 1px solid var(--linha-forte); border-radius: 99px; background: rgba(217, 178, 106, .08); color: var(--dourado); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn-timer:hover { background: rgba(217, 178, 106, .18); }
+.btn-timer .ic { width: 15px; height: 15px; }
+
+/* Timer flutuante: fica no canto enquanto a pessoa cozinha */
+.timer-flutuante { position: fixed; right: 20px; top: 66px; z-index: 50; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--dourado); border-radius: 18px; background: #17110c; color: var(--creme); box-shadow: 0 10px 30px rgba(0, 0, 0, .5); }
+.timer-flutuante[hidden] { display: none; }
+.timer-flutuante > .ic { width: 22px; height: 22px; color: var(--dourado); }
+.timer-flutuante span { display: flex; flex-direction: column; }
+.timer-flutuante small { font-size: 12px; color: var(--suave); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.timer-flutuante b { font-size: 24px; font-variant-numeric: tabular-nums; }
+.timer-flutuante button { border: 1px solid var(--linha-forte); border-radius: 99px; background: none; color: var(--suave); font: inherit; font-size: 13px; padding: 4px 12px; cursor: pointer; }
+
+/* Meu perfil */
+.dietas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.config .dieta, .dieta { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; margin: 0;
+  padding: 16px 12px 14px; border-radius: 16px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .02);
+  text-align: center; text-transform: none; letter-spacing: normal; cursor: pointer; color: var(--texto); transition: border-color .2s, background .2s, transform .15s; }
+.dieta:hover { border-color: var(--linha-forte); transform: translateY(-1px); }
+.dieta input { position: absolute; opacity: 0; pointer-events: none; }
+.dieta:has(input:focus-visible) { outline: 2px solid var(--dourado); outline-offset: 2px; }
+.dieta-icone { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 4px; border-radius: 50%; border: 1px solid var(--linha-forte); color: var(--dourado); background: rgba(217, 178, 106, .06); transition: background .2s, color .2s; }
+.dieta-icone .ic { width: 24px; height: 24px; }
+.dieta b { font-family: var(--serif); font-size: 17px; font-weight: 500; color: var(--creme); }
+.dieta small { display: block; color: var(--suave); font-size: 12px; line-height: 1.35; }
+.dieta-marca { position: absolute; top: 9px; right: 9px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--linha-forte); color: transparent; transition: all .2s; }
+.dieta-marca .ic { width: 22px; height: 22px; }
+.dieta:has(input:checked) { border-color: var(--dourado); background: rgba(217, 178, 106, .1); }
+.dieta:has(input:checked) .dieta-icone { background: var(--dourado); color: #1d140c; border-color: var(--dourado); }
+.dieta:has(input:checked) .dieta-marca { border-color: var(--dourado); background: var(--dourado); color: #1d140c; }
+#pillPerfil { max-width: 320px; }
+#pillPerfil span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.perfil-nota { margin: 0 0 8px; font-size: 13px; color: var(--suave); }
+
+/* Botão "Mais receitas" */
+.mais-receitas { display: flex; justify-content: center; margin: 4px 0 18px; }
+.btn-mais { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 99px; border: 1px solid var(--dourado); background: rgba(217, 178, 106, .1); color: var(--creme); font: inherit; font-weight: 600; cursor: pointer; transition: background .2s, transform .2s; }
+.btn-mais:hover { background: rgba(217, 178, 106, .22); transform: translateY(-1px); }
+.btn-mais .ic { width: 16px; height: 16px; color: var(--dourado); }
+
 /* Minha geladeira */
 .geladeira-aviso { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 0 0 14px; padding: 12px 16px; text-align: left; border: 1px dashed var(--linha-forte); border-radius: 16px; background: var(--painel); backdrop-filter: blur(10px); color: var(--suave); font-size: 14px; }
 .geladeira-aviso b { color: var(--creme); font-weight: 600; }
 .geladeira-aviso button { border: 0; background: none; color: var(--dourado); font: inherit; font-weight: 600; cursor: pointer; padding: 4px 0; }
-.pill-geladeira { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 99px; border: 1px solid var(--linha); background: var(--painel-forte); color: var(--texto); font: inherit; font-size: 13px; cursor: pointer; backdrop-filter: blur(10px); }
+.pill-geladeira { display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; white-space: nowrap; border-radius: 99px; border: 1px solid var(--linha); background: var(--painel-forte); color: var(--texto); font: inherit; font-size: 13px; cursor: pointer; backdrop-filter: blur(10px); }
 .pill-geladeira .ic { width: 15px; height: 15px; color: var(--dourado); }
 .pill-geladeira:hover { border-color: var(--dourado); }
 .geladeira .centro { text-align: center; }
@@ -177,18 +265,39 @@ details li { margin-bottom: 4px; }
 .chip.duvida { border-style: dashed; border-color: var(--cobre); }
 .tipo-pergunta { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; margin-top: 4px; border-radius: 12px; border: 1px dashed var(--cobre); background: rgba(200, 121, 74, .08); font-size: 13px; color: var(--suave); }
 .tipo-pergunta b { color: var(--creme); }
+.qtd-geladeira { border-top: none; margin-top: 6px; padding-top: 0; }
+.qtd-geladeira summary small { color: var(--suave); font-weight: 400; }
+.qtd-geladeira .aviso { margin: 6px 0 8px; font-size: 13px; }
+#listaQtd { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; padding-right: 4px; }
+.linha-qtd { display: grid; grid-template-columns: 1fr 76px 150px; gap: 8px; align-items: center; font-size: 14px; color: var(--texto); }
+.linha-qtd span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.linha-qtd input, .linha-qtd select, .meta select { background: rgba(0, 0, 0, .3); border: 1px solid var(--linha); border-radius: 8px; color: var(--creme); font: inherit; font-size: 13px; padding: 5px 8px; }
+.meta select { padding: 3px 6px; }
+.chip small { color: var(--suave); font-weight: 400; }
+.conta-comuns { margin: 4px 0 0; font-size: 12px; color: var(--suave); }
+.vazio-comuns { font-size: 13px; color: var(--suave); }
 .comum:hover { border-color: var(--dourado); color: var(--creme); }
 
 /* Caixa de mensagem */
-.composer-wrap { max-width: 800px; width: 100%; margin: 0 auto; padding: 10px 22px 16px; }
-.modos { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.composer-wrap { max-width: 900px; width: 100%; margin: 0 auto; padding: 10px 22px 16px; }
+/* Barra de opções: sempre numa linha só. Se não couber (tela estreita ou muitas opções), ela rola para o lado */
+.modos { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
+.modos::-webkit-scrollbar { display: none; }
+.modos > * { flex: none; }
+.modos.transborda { -webkit-mask-image: linear-gradient(90deg, #000 90%, transparent); mask-image: linear-gradient(90deg, #000 90%, transparent); }
+.modos.transborda.no-fim { -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%); mask-image: linear-gradient(90deg, transparent, #000 10%); }
+.modos .pill-geladeira span { max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .seg { display: inline-flex; background: var(--painel-forte); border: 1px solid var(--linha); border-radius: 99px; padding: 4px; backdrop-filter: blur(10px); }
-.seg-btn { display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; padding: 7px 14px; border-radius: 99px; font-size: 13px; color: var(--suave); transition: background .2s, color .2s; }
+.seg-btn { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 7px 12px; white-space: nowrap; border-radius: 99px; font-size: 13px; color: var(--suave); transition: background .2s, color .2s; }
 .seg-btn .ic { width: 16px; height: 16px; }
 .seg-btn.ativo { background: linear-gradient(180deg, #e2bf7c, #c99c52); color: #1d160f; font-weight: 600; }
-.meta { display: flex; align-items: center; gap: 6px; padding: 5px 12px; font-size: 13px; color: var(--suave); background: var(--painel-forte); border: 1px solid var(--linha); border-radius: 99px; }
+.meta { display: flex; align-items: center; gap: 6px; padding: 4px 6px 4px 11px; white-space: nowrap; font-size: 13px; color: var(--suave); background: var(--painel-forte); border: 1px solid var(--linha); border-radius: 99px; }
 .meta .ic { width: 15px; height: 15px; color: var(--cobre); }
-.meta input { width: 66px; padding: 3px 6px; border: 1px solid var(--linha); border-radius: 8px; background: rgba(0, 0, 0, .3); color: var(--creme); font: inherit; }
+/* Meta de calorias: cabe até "5000", sem as setinhas do navegador, no mesmo estilo dos menus */
+.meta input { width: calc(4ch + 22px); padding: 3px 10px; border: 1px solid var(--linha); border-radius: 99px; background: rgba(0, 0, 0, .25);
+  color: var(--creme); font: inherit; font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; -moz-appearance: textfield; appearance: textfield; }
+.meta input::-webkit-outer-spin-button, .meta input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.meta input:hover, .meta input:focus { outline: 0; border-color: var(--dourado); background: rgba(217, 178, 106, .1); }
 .composer {
   display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px; padding: 12px 12px 12px 16px;
   background: var(--painel-forte); border: 1px solid var(--linha-forte); border-radius: 22px;
@@ -242,7 +351,7 @@ dialog::backdrop { background: rgba(8, 6, 5, .7); backdrop-filter: blur(4px); }
 @keyframes pontos { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
 @keyframes surgir { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-@media (max-width: 760px) {
+@media (max-width: 760px), (max-height: 520px) and (max-width: 1100px) {
   .sidebar { position: fixed; inset: 0 auto 0 0; z-index: 20; transform: translateX(-100%); transition: transform .25s; }
   .menu-aberto .sidebar { transform: none; }
   .menu-aberto .overlay { display: block; position: fixed; inset: 0; z-index: 10; background: rgba(0, 0, 0, .6); }
@@ -256,3 +365,91 @@ dialog::backdrop { background: rgba(8, 6, 5, .7); backdrop-filter: blur(4px); }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+
+/* Menus da barra: Tipo e Pode faltar */
+select.menu-nativo { position: absolute; width: 1px; height: 1px; min-width: 0; padding: 0; border: 0; margin: 0; opacity: 0; pointer-events: none; overflow: hidden; }
+.meta { position: relative; }
+.menu-remy { position: relative; }
+.menu-remy { min-width: 0; }
+.menu-botao { display: inline-flex; align-items: center; justify-content: space-between; gap: 4px; max-width: 100%; padding: 3px 6px 3px 10px; border: 1px solid var(--linha); border-radius: 99px;
+  background: rgba(0, 0, 0, .25); color: var(--creme); font: inherit; font-size: 13px; font-weight: 600; letter-spacing: normal; text-transform: none; cursor: pointer; transition: border-color .2s, background .2s; }
+.menu-botao span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.menu-botao .ic { flex: none; width: 14px; height: 14px; color: var(--dourado); transition: transform .2s; }
+/* Dentro das janelas (geladeira, conectar modelo) o botão ocupa a largura do campo, como os outros campos */
+.config .menu-remy, .linha-qtd .menu-remy { width: 100%; }
+.config .menu-botao { width: 100%; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500; text-align: left; }
+.linha-qtd .menu-botao { padding: 6px 8px 6px 10px; border-radius: 8px; font-weight: 500; }
+.config .menu-botao .ic { width: 16px; height: 16px; }
+.menu-botao:hover, .menu-remy.aberto .menu-botao { border-color: var(--dourado); background: rgba(217, 178, 106, .1); }
+.menu-botao:focus-visible { outline: 2px solid var(--dourado); outline-offset: 2px; }
+.menu-remy.aberto .menu-botao .ic { transform: rotate(180deg); }
+.menu-lista.simples { padding: 5px; }
+.menu-lista.simples li { padding: 7px 10px; }
+.menu-lista.simples .menu-texto b { font-weight: 500; }
+.menu-lista { position: fixed; z-index: 60; width: max-content; max-width: min(340px, calc(100vw - 24px)); overflow-y: auto; scrollbar-color: var(--linha-forte) transparent; margin: 0; padding: 6px; list-style: none;
+  border: 1px solid var(--linha-forte); border-radius: 16px; background: #1a130d; box-shadow: 0 18px 40px rgba(0, 0, 0, .55); animation: menuSobe .14s ease-out; }
+.menu-lista[hidden] { display: none; }
+@keyframes menuSobe { from { opacity: 0; transform: translateY(6px); } }
+.menu-titulo { display: none; margin: 6px 10px 8px; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--dourado); }
+.menu-lista li { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 11px; cursor: pointer; color: var(--texto); outline: none; font-size: 14px; letter-spacing: normal; text-transform: none; }
+.menu-lista li:hover, .menu-lista li:focus { background: rgba(217, 178, 106, .1); }
+.menu-icone { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--linha); }
+.menu-lista .menu-icone .ic { width: 15px; height: 15px; color: var(--dourado); }
+.menu-texto { display: flex; flex-direction: column; flex: 1; min-width: 0; line-height: 1.25; }
+.menu-texto b { font-weight: 600; font-size: 14px; color: var(--creme); }
+.menu-texto small { font-size: 12px; color: var(--suave); }
+.menu-ok { display: grid; place-items: center; opacity: 0; }
+.menu-lista .menu-ok .ic { width: 18px; height: 18px; color: var(--dourado); }
+.menu-lista li[aria-selected="true"] { background: rgba(217, 178, 106, .14); }
+.menu-lista li[aria-selected="true"] .menu-icone { background: var(--dourado); border-color: var(--dourado); }
+.menu-lista li[aria-selected="true"] .menu-icone .ic { color: #1d140c; }
+.menu-lista li[aria-selected="true"] .menu-ok { opacity: 1; }
+/* Celular: o menu vira uma folha no rodapé, com fundo escurecido e itens maiores para o dedo */
+@media (max-width: 640px) {
+  body.lista-aberta::after, dialog:has(> .menu-lista:not([hidden]))::after { content: ""; position: fixed; inset: 0; z-index: 55; background: rgba(8, 5, 3, .6); }
+  .menu-lista { left: 10px; right: 10px; bottom: 10px; top: auto; width: auto; max-width: none; min-width: 0; padding: 8px 8px 12px; border-radius: 20px; animation-name: menuFolha; }
+  .menu-titulo { display: block; }
+  .menu-lista li { padding: 12px; }
+  @keyframes menuFolha { from { opacity: 0; transform: translateY(30px); } }
+}
+
+/* Telas baixas (celular deitado): menos espaço para a barra de baixo, mais para a conversa */
+@media (max-height: 520px) {
+  .hint { display: none; }
+  .composer-wrap { padding: 6px 16px 8px; }
+  .menu-lista { overflow-y: auto; }
+}
+/* Celular estreito: a conversa usa a largura toda (o avatar do Remy sai) e o timer fica compacto */
+@media (max-width: 480px) {
+  .msg.assistant > .avatar { display: none; }
+  .msg.assistant > .conteudo { padding: 8px 10px; }
+  .receita-escolhida { padding: 16px 14px; }
+  .msg { gap: 0; }
+  .timer-flutuante { right: 10px; top: 60px; gap: 8px; padding: 6px 8px 6px 12px; border-radius: 99px; }
+  .timer-flutuante small { display: none; }
+  .timer-flutuante b { font-size: 18px; }
+  .timer-flutuante > .ic { width: 18px; height: 18px; }
+}
+@media (max-width: 640px) { .menu-lista { max-height: 75vh; overflow-y: auto; } }
+@media (max-width: 480px) {
+  .linha-qtd { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); row-gap: 4px; margin-bottom: 6px; }
+  .linha-qtd input { width: 100%; min-width: 0; }
+  .linha-qtd > span { grid-column: 1 / -1; }
+}
+/* Telas médias (notebook pequeno, tablet deitado): a barra enxuga para caber numa linha */
+@media (min-width: 641px) and (max-width: 1180px) {
+  .seg-btn .ic, .meta > .ic { display: none; }
+  #usarGeladeira .rotulo-longo { display: none; }
+  #usarGeladeira { padding: 7px 10px; }
+}
+/* Cards de receita: 2 por fileira; no celular, 1 por fileira */
+@media (max-width: 560px) { .cards { grid-template-columns: minmax(0, 1fr); } }
+
+/* Aviso de restrição (perfil): discreto, no tom do site */
+.aviso-restricao { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0 4px; padding: 10px 14px; border: 1px solid rgba(217, 178, 106, .35);
+  border-radius: 12px; background: rgba(217, 178, 106, .07); font-size: 13px; line-height: 1.5; color: var(--suave); }
+.aviso-restricao .ic { flex: none; width: 18px; height: 18px; margin-top: 1px; color: var(--dourado); }
+.aviso-restricao p { margin: 0; }
+.aviso-restricao b { color: var(--creme); font-weight: 600; }
+.receita-escolhida .aviso-restricao { margin: 14px 0; }

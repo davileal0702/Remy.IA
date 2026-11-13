@@ -14,6 +14,12 @@
   <!-- Ícones de cozinha (traço), usados com <use href="#i-..."> -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
+      <symbol id="i-alerta" viewBox="0 0 24 24"><path d="M12 3.5L2.8 19.5h18.4zM12 10v4.5M12 17.2v.1"/></symbol>
+      <symbol id="i-seta" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></symbol>
+      <symbol id="i-folha" viewBox="0 0 24 24"><path d="M5 19c0-8 5-13.5 15-14 .3 9.5-5.5 15-13 14.5M5 19c3-4 6.5-7 10-9"/></symbol>
+      <symbol id="i-broto" viewBox="0 0 24 24"><path d="M12 21v-8.5M12 12.5C12 8.5 9.5 6 4.5 6c0 4.5 3 6.5 7.5 6.5zM12 14.5c0-4 2.5-6.8 7.5-6.8 0 4.6-3 6.8-7.5 6.8zM7.5 21h9"/></symbol>
+      <symbol id="i-trigo-x" viewBox="0 0 24 24"><path d="M12 21.5V9M12 9c-1.6-.8-2.4-2.3-2.4-4.3 1.7.5 2.4 2 2.4 4.3zm0 0c1.6-.8 2.4-2.3 2.4-4.3-1.7.5-2.4 2-2.4 4.3zM12 13.5c-1.8-.4-3-1.7-3.4-3.6 1.9.2 3 1.4 3.4 3.6zm0 0c1.8-.4 3-1.7 3.4-3.6-1.9.2-3 1.4-3.4 3.6zM12 18c-1.8-.4-3-1.7-3.4-3.6 1.9.2 3 1.4 3.4 3.6zm0 0c1.8-.4 3-1.7 3.4-3.6-1.9.2-3 1.4-3.4 3.6zM4 4l16 16"/></symbol>
+      <symbol id="i-leite-x" viewBox="0 0 24 24"><path d="M9.5 2.5h5v3l2 3.5v11a1.5 1.5 0 0 1-1.5 1.5H9a1.5 1.5 0 0 1-1.5-1.5V9l2-3.5zM7.5 12.5h9M4 4l16 16"/></symbol>
       <symbol id="i-frigideira" viewBox="0 0 24 24"><circle cx="9" cy="14" r="6.5"/><circle cx="9" cy="14" r="3.5" opacity=".5"/><path d="M14 9.5l7-6"/></symbol>
       <symbol id="i-cloche" viewBox="0 0 24 24"><path d="M2.5 18.5h19M4.5 18.5a7.5 7.5 0 0 1 15 0M12 11V8.5M10.5 8.5h3"/></symbol>
       <symbol id="i-chapeu" viewBox="0 0 24 24"><path d="M7 20.5h10M7 17h10v3.5M7 17v-2.3C4.8 14.3 3 12.5 3 10.2a4.2 4.2 0 0 1 5.4-4A4.5 4.5 0 0 1 12 4.5a4.5 4.5 0 0 1 3.6 1.7 4.2 4.2 0 0 1 5.4 4c0 2.3-1.8 4.1-4 4.5V17"/></symbol>
@@ -45,6 +51,7 @@
     <p class="side-label"><span>Caderno de receitas</span></p>
     <nav class="conversas" id="listaConversas"></nav>
     <div class="side-footer">
+      <button class="btn-ghost" id="btnPerfil"><svg class="ic"><use href="#i-chapeu"/></svg>Meu perfil</button>
       <button class="btn-ghost" id="btnGeladeira"><svg class="ic"><use href="#i-cesta"/></svg>Minha geladeira</button>
       <button class="btn-ghost" id="btnConfig"><svg class="ic"><use href="#i-batedor"/></svg>Conectar modelo</button>
       <div class="status" id="status"></div>
@@ -77,7 +84,26 @@
           <button type="button" class="seg-btn ativo" data-modo="receitas"><svg class="ic"><use href="#i-frigideira"/></svg>Receitas</button>
           <button type="button" class="seg-btn" data-modo="cardapio"><svg class="ic"><use href="#i-cloche"/></svg>Cardápio do dia</button>
         </div>
-        <button type="button" class="pill-geladeira" id="usarGeladeira" hidden><svg class="ic"><use href="#i-cesta"/></svg>Usar minha geladeira</button>
+        <button type="button" class="pill-geladeira" id="usarGeladeira" aria-label="Usar minha geladeira" title="Colocar tudo da minha geladeira nos ingredientes" hidden><svg class="ic"><use href="#i-cesta"/></svg><span class="rotulo-longo">Usar geladeira</span></button>
+        <button type="button" class="pill-geladeira" id="pillPerfil" hidden></button>
+        <div class="meta" id="tipo">
+          <svg class="ic"><use href="#i-talheres"/></svg>Tipo
+          <select id="tipoReceita" class="menu-nativo" aria-label="Tipo de receita">
+            <option value="" data-icone="talheres" data-desc="tudo o que der para fazer">Qualquer</option>
+            <option value="cafe" data-icone="xicara" data-desc="bolos, pães, lanches, bebidas">Café da manhã</option>
+            <option value="principal" data-icone="panela" data-desc="carnes, aves, massas, peixes">Prato principal</option>
+            <option value="sobremesa" data-icone="estrela" data-desc="doces, pudins, mousses">Sobremesa</option>
+          </select>
+        </div>
+        <div class="meta" id="faltar" title="Quantos ingredientes a receita pode pedir além do que você tem">
+          <svg class="ic"><use href="#i-cesta"/></svg>Pode faltar
+          <select id="maxFaltantes" class="menu-nativo" aria-label="Quantos ingredientes podem faltar">
+            <option value="0" data-icone="check" data-desc="só receitas com o que você tem">Nada</option>
+            <option value="2" data-icone="cesta" data-desc="uma passadinha no mercado" selected>Até 2</option>
+            <option value="5" data-icone="cesta" data-desc="vale uma ida às compras">Até 5</option>
+            <option value="livre" data-icone="livro" data-desc="mostra tudo, faltando o que for">Tanto faz</option>
+          </select>
+        </div>
         <label class="meta" id="meta" hidden>
           <svg class="ic"><use href="#i-fogo"/></svg>Meta <input type="number" id="metaCalorias" value="2000" min="500" max="5000" step="50"> kcal
         </label>
@@ -120,6 +146,26 @@
     </form>
   </dialog>
 
+  <dialog id="dlgPerfil">
+    <form method="dialog" class="config geladeira">
+      <h2>Meu perfil</h2>
+      <div class="ornamento"><i></i><b></b><i></i></div>
+      <p class="aviso centro">Suas restrições ficam salvas e valem para todas as buscas e cardápios. Fica só neste navegador.<br>O filtro lê o texto das receitas: em caso de alergia, confira sempre os rótulos.</p>
+      <p class="side-label geladeira-label"><span>Dieta</span></p>
+      <div class="dietas" id="dietasPerfil"></div>
+      <p class="side-label geladeira-label"><span>Não como / tenho alergia</span></p>
+      <div class="composer geladeira-campo">
+        <div class="chips" id="chipsPerfil"></div>
+        <input id="entradaPerfil" placeholder="Ex.: camarão, amendoim... (vírgula ou Enter)" autocomplete="off">
+      </div>
+      <div class="comuns" id="comunsPerfil"></div>
+      <menu>
+        <button value="cancelar" class="btn-sec">Cancelar</button>
+        <button value="ok" class="btn-primario">Salvar perfil</button>
+      </menu>
+    </form>
+  </dialog>
+
   <dialog id="dlgGeladeira">
     <form method="dialog" class="config geladeira">
       <h2>O que tem na sua geladeira?</h2>
@@ -130,14 +176,22 @@
         <input id="entradaGeladeira" placeholder="Digite e aperte vírgula ou Enter..." autocomplete="off">
       </div>
       <div id="tiposGeladeira"></div>
+      <details class="qtd-geladeira" id="qtdGeladeira" hidden>
+        <summary>Quantidades <small>(opcional)</small></summary>
+        <p class="aviso">Se quiser, diga quanto tem de cada um. O Remy avisa quando a receita pedir mais do que você tem.</p>
+        <div id="listaQtd"></div>
+      </details>
       <p class="side-label geladeira-label"><span>Toque para adicionar</span></p>
       <div class="comuns" id="comunsGeladeira"></div>
+      <p class="conta-comuns" id="contaComuns"></p>
       <menu>
         <button value="depois" class="btn-sec" id="geladeiraDepois">Deixar para depois</button>
         <button value="ok" class="btn-primario">Salvar geladeira</button>
       </menu>
     </form>
   </dialog>
+
+  <div id="timerFlutuante" class="timer-flutuante" role="timer" aria-live="polite" hidden></div>
 
   <script src="remy.js"></script>
   <script src="api.js"></script>
