@@ -1,0 +1,12 @@
+# Bases de receitas: são grandes e o uso foi autorizado só para o trabalho. Ficam fora do GitHub.
+dados/*
+!dados/LEIA-ME.md
+*.parquet
+*.csv
+*.pkl
+
+# Lixo de sistema e de Python
+.DS_Store
+Thumbs.db
+__pycache__/
+.ipynb_checkpoints/

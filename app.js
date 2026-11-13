@@ -9,7 +9,7 @@ let enviando = false;
 
 const entrada = $("#entrada"), chipsEl = $("#chips"), mensagensEl = $("#mensagens");
 
-let salvar = () => localStorage.setItem(CHAVE, JSON.stringify(conversas));
+const salvar = () => localStorage.setItem(CHAVE, JSON.stringify(conversas));
 const conversaAtual = () => conversas.find(c => c.id === atual);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const ic = nome => `<svg class="ic"><use href="#i-${nome}"/></svg>`;
@@ -683,7 +683,7 @@ $("#maxFaltantes").addEventListener("change", e => { try { localStorage.setItem(
 Remy.montar();
 renderSugestoes();
 renderPillPerfil();
-// Primeira visita: pergunta o que tem na geladeira (dá para pular). No modo apresentação, não pergunta.
+// Primeira visita: pergunta o que tem na geladeira (dá para pular).
 if (!localStorage.getItem(CHAVE_ONBOARDING)) abrirGeladeira();
 $("#favicon").href = "data:image/svg+xml," + encodeURIComponent(Remy.svg(64).replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"'));
 renderLista(); renderChat(); renderStatus();

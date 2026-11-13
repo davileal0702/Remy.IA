@@ -1,5 +1,7 @@
 # Briefing: a LLM do Remy.IA e o site
 
+> **Atenção:** este briefing descreve a primeira versão (base Food.com). Na versão 13.11 a base passou a ser o TudoGostoso e o contrato ganhou campos novos (`tipo`, `max_faltantes`, `quantidades`, `perfil`, os pedidos `acao: "ingredientes"` e `acao: "dica"`, e nos cards `porcoes`, `avaliacoes`, `calorias_aprox`, `pouco`, `ingredientes` por seção e `fonte`). O contrato atual está no `README.md`.
+
 Este texto explica o site do Remy.IA para quem vai construir e treinar a IA. O objetivo é que a IA receba exatamente o que o site manda e devolva exatamente o que o site sabe mostrar.
 
 ## 1. O projeto em uma frase

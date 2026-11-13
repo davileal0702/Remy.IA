@@ -30,6 +30,8 @@ site (este repositório)  ──JSON──▶  notebook no Colab (Gradio /respon
 | `notebooks/RemyIA_Coleta_TudoGostoso.ipynb` | Coleta as receitas do TudoGostoso e salva a base no Google Drive |
 | `notebooks/RemyIA_Final.ipynb` | O cérebro: base + TACO + busca + Qwen3.5-2B, servindo o site pelo Gradio |
 | `space/` | Modelo de Space do Hugging Face (ainda **não** tem o pipeline final; use o notebook) |
+| `dados/` | Bases de receitas locais, **fora do GitHub** (`.gitignore`). `antigos/foodcom/` guarda a base antiga do Food.com; `tudogostoso/` recebe a base atual. Veja `dados/LEIA-ME.md` |
+| `docs/BRIEFING_LLM.md` | Explicação do site para quem treina a LLM (primeira versão do contrato; o contrato atual é o desta página) |
 
 ## Rodando
 
