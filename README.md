@@ -2,107 +2,100 @@
 
 > Qualquer um pode cozinhar. Agora, com o que você tem na geladeira.
 
-Interface de chat do projeto **Remy.IA** (Redes Neurais Artificiais e Machine Learning, Prof. Jaime Ranulfo Leite Filho).
+Projeto da disciplina **Redes Neurais Artificiais e Machine Learning** (Uniso, Prof. Jaime Ranulfo Leite Filho).
 Integrantes: Beatriz, Davi, Kayke e Guilherme.
 
-O usuário informa os ingredientes e o Remy sugere receitas, o que falta comprar e um cardápio do dia.
+O usuário diz o que tem em casa e o Remy devolve receitas brasileiras reais (base do TudoGostoso, com notas de usuários), o que falta comprar, as calorias estimadas pela Tabela TACO e um cardápio do dia. O texto da conversa é escrito pelo LLM **Qwen3.5-2B**.
 
-## Como abrir
+## Como funciona
 
-É um site estático (HTML, CSS e JavaScript puro, sem build). Basta abrir o `index.html` no navegador.
-O site só responde com o modelo conectado (veja abaixo).
+```
+site (este repositório)  ──JSON──▶  notebook no Colab (Gradio /responder)
+                                      ├─ entende os ingredientes (sinônimos, erros de digitação, embeddings + FAISS)
+                                      ├─ busca as receitas na base do TudoGostoso (~21 mil receitas)
+                                      ├─ calcula o que falta e as calorias (Tabela TACO)
+                                      └─ Qwen3.5-2B escreve a resposta do Remy
+```
 
 ## Arquivos
 
 | Arquivo | O que faz |
 |---|---|
 | `index.html` | Estrutura da página |
-| `style.css` | Tema (cozinha escura premium, detalhes dourados) |
-| `assets/cozinha.svg` | Ilustração de fundo da cozinha |
-| `remy.js` | Mascote em pixel art (ratinho chef com colher de pau) |
-| `app.js` | Chat, chips de ingredientes, "Minha geladeira", cards e histórico (salvos no `localStorage`) |
-| `api.js` | Conexão com o modelo |
-| `space/` | Modelo de Space do Hugging Face no formato que o site espera |
+| `style.css` | Tema (cozinha escura, detalhes dourados), responsivo do celular ao monitor grande |
+| `app.js` | Chat, geladeira, perfil, cards, receita escolhida, timer, listas suspensas e histórico (no `localStorage`) |
+| `api.js` | Conexão com o modelo (Gradio ou API compatível com OpenAI) |
+| `remy.js` | Mascote em pixel art |
+| `assets/cozinha.svg` | Ilustração de fundo |
+| `notebooks/RemyIA_Coleta_TudoGostoso.ipynb` | Coleta as receitas do TudoGostoso e salva a base no Google Drive |
+| `notebooks/RemyIA_Final.ipynb` | O cérebro: base + TACO + busca + Qwen3.5-2B, servindo o site pelo Gradio |
+| `space/` | Modelo de Space do Hugging Face (ainda **não** tem o pipeline final; use o notebook) |
+
+## Rodando
+
+1. **Base de receitas.** Rode `notebooks/RemyIA_Coleta_TudoGostoso.ipynb` no Colab. Ele salva `RemyIA_dados/receitas_tudogostoso.parquet` no Google Drive e continua de onde parou se a sessão cair (a coleta completa leva umas 7 a 8 horas). A base **não vai para o GitHub**: o uso foi autorizado só para o trabalho, e a `.gitignore` bloqueia esses arquivos.
+2. **Modelo.** Abra `notebooks/RemyIA_Final.ipynb` no Colab, escolha **GPU T4** (Ambiente de execução > Alterar o tipo) e clique em **Executar tudo**. A última célula mostra um link `https://xxxx.gradio.live`.
+3. **Site.** Abra o `index.html` (ou o GitHub Pages), clique em **Conectar modelo**, escolha *Gradio*, cole o link, endpoint `/responder`, e salve.
+
+O link vale enquanto o Colab estiver aberto. Se a sessão cair, rode de novo e cole o link novo. Sem modelo conectado, o site avisa "Modelo não conectado".
 
 ## Funções do site
 
-- **Chat** com histórico de conversas na barra lateral.
-- **Chips de ingredientes**: a vírgula transforma o texto em ingrediente.
-- **Receitas** ou **Cardápio do dia** (café, prato principal, acompanhamento e sobremesa) com meta de calorias.
-- **Minha geladeira**: lista do que o usuário tem em casa. Abre sozinha na primeira visita (dá para pular). Pergunta o tipo quando o ingrediente é genérico (farinha, fermento, queijo, feijão, chocolate, milho, pimenta). As sugestões da tela inicial passam a usar essa lista, e o botão **Usar minha geladeira** coloca tudo nos chips.
-- **Cards de receita**: tempo, nota, calorias, o que tem, o que falta comprar, modo de preparo e etiqueta "Brasileira". Receitas do mesmo tipo podem vir num card só, com botões para trocar de variante.
+- **Minha geladeira**: abre na primeira visita (dá para pular). O "Toque para adicionar" mostra os ingredientes da base. Quantidade é opcional; com ela, o Remy avisa quando a receita pede mais do que você tem. Para ingredientes com tipos (farinha, queijo, fermento...) o site pergunta qual é.
+- **Meu perfil**: vegetariano, vegano, sem glúten, sem lactose e alimentos que a pessoa não come. Vale para toda busca e cardápio. O filtro olha nome, ingredientes e modo de preparo, e o site mostra um aviso para conferir os rótulos em caso de alergia.
+- **Receitas**: tipo opcional (café da manhã, prato principal, sobremesa) e **Pode faltar** (nada, até 2, até 5, tanto faz). Cards em duas colunas, com variantes do mesmo prato num card só. Botão **Mais receitas** traz as próximas sem repetir.
+- **Cardápio do dia**: café, almoço, acompanhamento, jantar e sobremesa dentro da meta de calorias.
+- **Receita escolhida**: lista de compras, checklist de ingredientes (por parte: massa, recheio...), ajuste de porções que recalcula as quantidades, modo de preparo com **timer** nos passos que têm tempo e uma dica do Remy.
+- **Caderno de receitas**: o histórico na barra lateral, com o nome da receita escolhida.
 
-## Conectando o modelo
+## Contrato com o modelo
 
-No site, clique em **⚙ Conectar modelo** e escolha a fonte:
-
-1. **Gradio: Colab ou Hugging Face Space**, recomendado: o servidor roda o pipeline completo (busca RAG + LLM). Informe o link do Colab (`https://xxxx.gradio.live`) ou o ID do Space (ex.: `usuario/remy-ia`) e o endpoint (`/responder`).
-2. **API compatível com OpenAI** (Hugging Face Inference Endpoints/TGI, vLLM, Ollama, Groq): fala direto com o LLM. Informe a URL base terminando em `/v1`. Esse modo **não faz a busca RAG**.
-
-O token digitado em **Conectar modelo** fica salvo só no navegador de quem usa. Num site público, não deixe token no código: prefira um Space público.
-
-### Testando pelo Colab
-
-1. No notebook da LLM, sirva a função de resposta com Gradio no endpoint `/responder` e `launch(share=True)`.
-2. A célula mostra um link `https://xxxx.gradio.live`.
-3. No site: **Conectar modelo** > *Gradio: Colab ou Hugging Face Space* > cole o link > endpoint `/responder` > Salvar.
-
-O link vale enquanto o Colab estiver aberto. Se a sessão cair, rode de novo e cole o link novo.
-
-### Subindo o Space
-
-1. Crie um Space novo no Hugging Face com SDK **Gradio**.
-2. Envie os arquivos de `space/` (`app.py` e `requirements.txt`).
-3. Troque o corpo da função `responder` em `app.py` pelo pipeline da LLM.
-
-## Contrato de dados
-
-O site envia para o endpoint `/responder` um texto JSON:
+O site manda para `/responder` um texto JSON:
 
 ```json
 {
-  "mensagem": "texto livre digitado (pode ser vazio)",
+  "mensagem": "texto livre (pode ser vazio)",
   "ingredientes": ["frango", "arroz", "tomate"],
+  "quantidades": { "leite": { "qtd": 1, "unidade": "l" } },
   "modo": "receitas",
+  "tipo": "principal",
+  "max_faltantes": "2",
   "meta_calorias": 2000,
-  "historico": [{ "role": "user", "content": "..." }, { "role": "assistant", "content": "..." }]
+  "perfil": { "dietas": ["sem lactose"], "evitar": ["amendoim"] },
+  "historico": [{ "role": "user", "content": "..." }]
 }
 ```
 
-`modo` é `"receitas"` ou `"cardapio"`.
+- `modo`: `"receitas"` ou `"cardapio"`. `tipo`: `""`, `"cafe"`, `"principal"` ou `"sobremesa"`. `max_faltantes`: `"0"`, `"2"`, `"5"` ou `"livre"`.
+- Pedidos especiais: `{"acao": "ingredientes"}` devolve `{"ingredientes": [...]}` (lista do "Toque para adicionar"); `{"acao": "dica", "receita": {...}}` devolve `{"dica": "..."}`.
 
-O servidor devolve um texto JSON. Todos os campos são opcionais; se vier texto puro, ele aparece como mensagem normal.
+O modelo devolve um texto JSON:
 
 ```json
 {
-  "texto": "Resposta em markdown simples (**negrito**, *itálico*, listas)",
+  "texto": "Resposta do Remy em markdown simples",
   "receitas": [
     {
-      "nome": "Arroz mexicano da Adriana",
-      "minutos": 30,
-      "nota": 4.5,
-      "calorias": 320,
-      "brasileira": false,
-      "tem": ["arroz", "tomate"],
-      "falta": ["caldo de legumes"],
-      "passos": ["Refogue a cebola...", "Junte o arroz..."]
+      "nome": "Arroz de forno", "categoria": "Prato Único", "minutos": 50, "porcoes": 6,
+      "nota": 4.6, "avaliacoes": 120, "calorias": 410, "calorias_aprox": true,
+      "tem": ["2 xícaras de arroz cozido"], "falta": ["200 g de presunto"], "pouco": [],
+      "ingredientes": [{ "secao": "Massa", "itens": ["2 xícaras de arroz cozido", "..."] }],
+      "passos": ["Misture...", "Leve ao forno por 20 minutos."],
+      "fonte": "TudoGostoso"
     },
-    {
-      "grupo": "Arroz",
-      "variantes": [
-        { "rotulo": "Com frango", "nome": "Arroz com frango", "minutos": 40, "tem": ["arroz", "frango"], "falta": [] },
-        { "rotulo": "De forno", "nome": "Arroz de forno", "minutos": 50, "tem": ["arroz"], "falta": ["queijo"] }
-      ]
-    }
+    { "grupo": "Bolo de cenoura", "variantes": [{ "rotulo": "Bolo de cenoura fofinho", "nome": "...", "...": "mesmos campos" }] }
   ],
-  "cardapio": {
-    "meta_calorias": 2000,
-    "total_calorias": 1850,
-    "itens": [{ "refeicao": "Café da manhã", "nome": "Panqueca simples", "calorias": 250 }]
-  }
+  "cardapio": { "meta_calorias": 2000, "total_calorias": 1850, "itens": [{ "refeicao": "Almoço", "nome": "Arroz de forno", "calorias": 410 }] }
 }
 ```
 
-- Cada item de `receitas` vira um card. `brasileira: true` mostra a etiqueta "Brasileira".
-- Um item com `variantes` (2 ou mais) vira um card só, com o título `grupo` e um botão por variante (`rotulo`, ou `nome` se não tiver). Cada variante usa os mesmos campos de uma receita.
-- No cardápio, cada item de `cardapio.itens` vira um card com o rótulo da refeição (usa a receita de mesmo `nome` em `receitas`, se houver).
+- `tem` e `falta` vêm com quantidade, como estão na receita. `pouco` lista o que o usuário tem, mas em quantidade menor que a receita pede.
+- Um item com `variantes` (2 ou mais) vira um card só, com um botão por variante.
+- No cardápio, cada item de `cardapio.itens` usa a receita de mesmo `nome` em `receitas`.
+
+## Limites conhecidos
+
+- As calorias são estimadas pela TACO a partir do texto dos ingredientes (88% das receitas têm estimativa). É uma aproximação.
+- Cerca de 40% das receitas da base não têm avaliação; nelas a nota entra pela média do site (nota bayesiana).
+- Os filtros de dieta e alergia dependem do que o autor da receita escreveu. Em caso de alergia, confira os rótulos.
+- `space/app.py` ainda é o modelo antigo, sem o pipeline final.
