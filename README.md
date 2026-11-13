@@ -95,7 +95,4 @@ O modelo devolve um texto JSON:
 
 ## Limites conhecidos
 
-- As calorias são estimadas pela TACO a partir do texto dos ingredientes (88% das receitas têm estimativa). É uma aproximação.
-- Cerca de 40% das receitas da base não têm avaliação; nelas a nota entra pela média do site (nota bayesiana).
 - Os filtros de dieta e alergia dependem do que o autor da receita escreveu. Em caso de alergia, confira os rótulos.
-- `space/app.py` ainda é o modelo antigo, sem o pipeline final.
