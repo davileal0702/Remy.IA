@@ -1,8 +1,13 @@
 # Bases de receitas: são grandes e o uso foi autorizado só para o trabalho. Ficam fora do GitHub.
+# A tabela TACO (dados/taco) é pública e pequena: fica no GitHub, o notebook a lê de lá.
 dados/*
 !dados/LEIA-ME.md
+!dados/taco/
+RemyIA_dados/
+receitas_tudogostoso.*
+urls_receitas.csv
 *.parquet
-*.csv
+*.jsonl
 *.pkl
 
 # Lixo de sistema e de Python
