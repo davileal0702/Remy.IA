@@ -34,12 +34,12 @@ O site foi feito com **HTML, CSS e JavaScript puro**, sem frameworks e sem etapa
 |---|---|
 | `index.html` | Estrutura da página (barra lateral, chat, janelas) |
 | `style.css` | Visual: tema de cozinha escura com detalhes dourados, adaptado para celular |
-| `app.js` | Funcionamento da interface: chat, geladeira, perfil, cards, receita escolhida, timer e histórico |
+| `app.js` | Funcionamento da interface: chat, geladeira, cards, receita escolhida, timer e histórico |
 | `api.js` | Comunicação com a IA (envio do pedido e leitura da resposta) |
 | `remy.js` | Mascote do Remy em pixel art |
 | `assets/cozinha.svg` | Ilustração do fundo |
 
-O histórico de conversas, a geladeira e o perfil ficam salvos no **próprio navegador** de quem usa (`localStorage`). O site não tem cadastro nem banco de dados: nada disso é enviado para um servidor, a não ser os dados necessários para cada pedido à IA.
+O histórico de conversas e a geladeira ficam salvos no **próprio navegador** de quem usa (`localStorage`). O site não tem cadastro nem banco de dados: nada disso é enviado para um servidor, a não ser os dados necessários para cada pedido à IA.
 
 > As telas abaixo mostram conversas de exemplo montadas com **receitas reais da base do TudoGostoso**. O texto do Remy nesses exemplos foi escrito para ilustrar o formato da resposta.
 
@@ -51,7 +51,7 @@ O histórico de conversas, a geladeira e o perfil ficam salvos no **próprio nav
 
 A tela segue o padrão de assistentes de conversa conhecidos, como ChatGPT e Claude:
 
-- **Barra lateral (esquerda):** botão *Nova receita*, o **Caderno de receitas** (histórico de conversas) e, embaixo, os botões *Meu perfil*, *Minha geladeira* e *Conectar modelo*, com o status da conexão com a IA (ponto verde quando há um modelo conectado).
+- **Barra lateral (esquerda):** botão *Nova receita*, o **Caderno de receitas** (histórico de conversas) e, embaixo, os botões *Meu perfil* (uma melhoria futura, explicada na seção 6), *Minha geladeira* e *Conectar modelo*, com o status da conexão com a IA (ponto verde quando há um modelo conectado).
 - **Centro:** o mascote, a frase "Qualquer um pode cozinhar." e atalhos. Quando a geladeira já está preenchida, os atalhos usam esses ingredientes, por exemplo *O que dá para fazer?* e *Cardápio do dia*.
 - **Embaixo:** a caixa de mensagem. Cada vírgula transforma o texto em um **chip** de ingrediente. Acima dela ficam o seletor **Receitas / Cardápio do dia** e o botão **Usar geladeira**, que coloca todos os itens da geladeira na mensagem.
 
@@ -67,24 +67,11 @@ A tela segue o padrão de assistentes de conversa conhecidos, como ChatGPT e Cla
 - Alguns ingredientes têm **tipos que mudam a receita**: farinha, fermento, queijo, feijão, chocolate, milho e pimenta. Para eles, o site pergunta qual é (na figura, *Qual farinha?* e *Qual queijo?*).
 - A **quantidade** é opcional. Quando informada, o Remy avisa se a receita pede mais do que a pessoa tem.
 
-### 2.4 Meu perfil
-
-![Meu perfil](img/03-perfil.png)
-
-*Figura 4. Janela "Meu perfil".*
-
-Guarda as restrições alimentares, que valem para todas as buscas e cardápios:
-
-- **Dieta:** vegetariano, vegano, sem glúten e sem lactose.
-- **Não como / tenho alergia:** alimentos que a pessoa não come (na figura, amendoim e camarão).
-
-O filtro lê o nome, os ingredientes e o modo de preparo das receitas. Como ele depende do que o autor escreveu, o site mostra um aviso para conferir os rótulos em caso de alergia.
-
-### 2.5 Resposta com receitas
+### 2.4 Resposta com receitas
 
 ![Resposta com receitas](img/04-receitas.png)
 
-*Figura 5. Pedido com seis ingredientes e a resposta do Remy.*
+*Figura 4. Pedido com seis ingredientes e a resposta do Remy.*
 
 A mensagem do usuário aparece à direita, com os ingredientes em chips. A resposta do Remy tem duas partes:
 
@@ -97,19 +84,19 @@ A mensagem do usuário aparece à direita, com os ingredientes em chips. A respo
 
 Receitas parecidas viram **um card só com variantes**. Na figura, o card *Arroz de forno* traz três versões (*À parmegiana*, *Clássico* e *Light*), e um clique troca a versão exibida.
 
-### 2.6 Receita completa
+### 2.5 Receita completa
 
 ![Receita completa](img/05-receita-completa.png)
 
-*Figura 6. Card com a receita completa aberta.*
+*Figura 5. Card com a receita completa aberta.*
 
 Ao abrir **Receita completa**, o card mostra a lista de ingredientes (separada por partes quando a receita tem, como *Massa* e *Cobertura*) e o modo de preparo, exatamente como estão na base.
 
-### 2.7 Receita escolhida
+### 2.6 Receita escolhida
 
 ![Receita escolhida](img/06-receita-escolhida.png)
 
-*Figura 7. Tela da receita escolhida.*
+*Figura 6. Tela da receita escolhida.*
 
 Ao clicar em **Escolher esta receita**, o Remy abre um painel para cozinhar:
 
@@ -120,33 +107,33 @@ Ao clicar em **Escolher esta receita**, o Remy abre um painel para cozinhar:
 
 ![Modo de preparo com timer](img/07-modo-de-preparo.png)
 
-*Figura 8. Modo de preparo com timers e a dica do Remy.*
+*Figura 7. Modo de preparo com timers e a dica do Remy.*
 
 - Os passos que têm tempo ("por 15 minutos", "leve ao forno por 10 minutos") ganham um botão de **timer**. O cronômetro aparece no canto da tela e toca um aviso no fim.
 - No fim, uma **dica do Remy**, escrita pelo modelo de linguagem.
 - O botão **Mais receitas** traz as próximas opções, sem repetir as já mostradas.
 
-### 2.8 Cardápio do dia
+### 2.7 Cardápio do dia
 
 ![Cardápio do dia](img/08-cardapio.png)
 
-*Figura 9. Cardápio do dia.*
+*Figura 8. Cardápio do dia.*
 
 No modo **Cardápio do dia**, a pessoa informa uma meta de calorias e o Remy monta o dia com **café da manhã, almoço, acompanhamento, jantar e sobremesa**, aproveitando os ingredientes disponíveis. Cada refeição aparece como um card com o rótulo da refeição, e o texto informa o total de calorias em relação à meta.
 
-### 2.9 Conectar modelo
+### 2.8 Conectar modelo
 
 ![Conectar modelo](img/09-conectar-modelo.png)
 
-*Figura 10. Janela "Conectar modelo".*
+*Figura 9. Janela "Conectar modelo".*
 
 É onde o site é ligado à IA. A opção recomendada é **Gradio**: basta colar o link gerado pelo notebook no Colab (`https://....gradio.live`) ou o ID de um Space do Hugging Face, com o endpoint `/responder`. A opção alternativa, **API compatível com OpenAI**, conversa direto com um modelo de linguagem, sem a busca nas receitas.
 
-### 2.10 No celular
+### 2.9 No celular
 
 ![Versão para celular](img/10-celular.png)
 
-*Figura 11. O mesmo site no celular.*
+*Figura 10. O mesmo site no celular.*
 
 O layout se adapta a telas pequenas: a barra lateral vira um menu (botão ☰), os cards ficam em uma coluna e a barra de opções pode ser rolada para o lado.
 
@@ -160,7 +147,7 @@ O layout se adapta a telas pequenas: a barra lateral vira um menu (botão ☰), 
 2. O site monta um **pedido em JSON** e o envia para o endpoint `/responder` do Gradio, usando a biblioteca oficial `@gradio/client`.
 3. No notebook, o Remy:
    1. **entende os ingredientes:** limpa o texto, junta sinônimos, corrige erros de digitação e encontra o ingrediente mais parecido usando **embeddings** (`paraphrase-multilingual-MiniLM-L12-v2`) e **FAISS**;
-   2. **busca as receitas (RAG):** pontua cada receita da base pelo quanto ela usa do que a pessoa tem, pela nota real dos usuários e pela rapidez, e aplica as restrições do perfil;
+   2. **busca as receitas (RAG):** pontua cada receita da base pelo quanto ela usa do que a pessoa tem, pela nota real dos usuários e pela rapidez;
    3. **monta os cards** com os dados reais da receita: ingredientes, passos, nota, porções e calorias;
    4. **gera o texto** com o modelo de linguagem **Qwen3.5-2B**, que recebe só as receitas encontradas.
 4. O notebook devolve uma **resposta em JSON**.
@@ -189,7 +176,7 @@ Enquanto espera, o site mostra o mascote mexendo a panela com a frase "Remy est�
 | `quantidades` | Quantidades da geladeira, quando informadas. |
 | `modo` | `"receitas"` ou `"cardapio"`. |
 | `meta_calorias` | Meta do dia, usada no cardápio. |
-| `perfil` | Dietas e alimentos a evitar. |
+| `perfil` | Dietas e alimentos a evitar. O site já envia este campo, mas a IA ainda não o usa (melhoria futura, seção 6). |
 | `historico` | As últimas mensagens, para o Remy entender a continuação da conversa. |
 
 Há também dois pedidos especiais: `{"acao": "ingredientes"}`, que devolve a lista de todos os ingredientes da base (usada em *Toque para adicionar*), e `{"acao": "dica", "receita": {...}}`, que devolve a dica do Remy para a receita escolhida.
@@ -223,7 +210,7 @@ Há também dois pedidos especiais: `{"acao": "ingredientes"}`, que devolve a li
 
 | O site faz | A IA (notebook) faz |
 |---|---|
-| Coletar ingredientes, perfil e geladeira | Entender e normalizar os ingredientes |
+| Coletar ingredientes e a geladeira | Entender e normalizar os ingredientes |
 | Exibir texto e cards | Buscar e ordenar as receitas na base |
 | Recalcular porções, timer e checklist | Calcular o que falta e as calorias |
 | Guardar o histórico no navegador | Escrever o texto e a dica com o Qwen3.5-2B |
@@ -252,6 +239,19 @@ O caminho dos dados está descrito em `dados/LEIA-ME.md`. A base de receitas nã
 ## 5. Limitações
 
 - **Calorias são estimativas.** Elas dependem das medidas caseiras (xícara cheia ou rasa) e das porções informadas pelos autores. O site mostra o sinal "≈" e a margem de erro não foi medida.
-- **Filtros de dieta e alergia** dependem do que o autor da receita escreveu. Em caso de alergia, é preciso conferir os rótulos.
 - **A IA precisa estar ligada.** Com o Colab desligado, o site abre normalmente, mas não responde. O link do Colab muda a cada execução.
-- **Dados locais.** Histórico, geladeira e perfil ficam no navegador: não passam de um aparelho para outro.
+- **Dados locais.** Histórico e geladeira ficam no navegador: não passam de um aparelho para outro.
+
+---
+
+## 6. Melhorias futuras
+
+### 6.1 Meu perfil (restrições alimentares)
+
+![Meu perfil](img/03-perfil.png)
+
+*Figura 11. Janela "Meu perfil", já presente no site.*
+
+A janela **Meu perfil** já existe no site, mas **ainda não faz parte da versão atual do projeto**. A pessoa consegue marcar uma dieta (vegetariano, vegano, sem glúten ou sem lactose) e listar alimentos que não come ou aos quais tem alergia. As escolhas ficam salvas no navegador e o site já as envia no pedido (campo `perfil`), mas **a IA ainda não aplica esses filtros nas buscas**: as receitas sugeridas podem conter itens marcados no perfil.
+
+Para funcionar, o próximo passo é a busca no notebook descartar as receitas que não combinam com o perfil, olhando o nome, os ingredientes e o modo de preparo. Mesmo assim, como o filtro dependeria do que o autor da receita escreveu, em caso de alergia continuaria sendo necessário conferir os rótulos dos produtos.
