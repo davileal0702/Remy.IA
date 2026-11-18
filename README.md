@@ -33,6 +33,7 @@ site (este repositório)  ──JSON──▶  notebook no Colab (Gradio /respon
 | `space/` | Modelo de Space do Hugging Face (ainda **não** tem o pipeline final; use o notebook) |
 | `dados/` | Bases de receitas locais, **fora do GitHub** (`.gitignore`). A base final é `tudogostoso/receitas_com_calorias.parquet`; `antigos/foodcom/` guarda a base antiga do Food.com. Veja `dados/LEIA-ME.md` |
 | `scripts/calorias_taco.py` | Gera a base final: calcula as calorias por porção de cada receita com a TACO e os complementos |
+| `docs/DOCUMENTACAO.md` | **Documentação do projeto:** telas do site com prints e como o site se integra com a IA (também em `docs/Remy.IA_Documentacao.docx`) |
 | `docs/BRIEFING_LLM.md` | Explicação do site para quem treina a LLM (primeira versão do contrato; o contrato atual é o desta página) |
 
 ## Rodando
