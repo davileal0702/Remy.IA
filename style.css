@@ -367,7 +367,7 @@ dialog::backdrop { background: rgba(8, 6, 5, .7); backdrop-filter: blur(4px); }
 }
 
 
-/* Menus da barra: Tipo e Pode faltar */
+/* Menus da barra: Tipo */
 select.menu-nativo { position: absolute; width: 1px; height: 1px; min-width: 0; padding: 0; border: 0; margin: 0; opacity: 0; pointer-events: none; overflow: hidden; }
 .meta { position: relative; }
 .menu-remy { position: relative; }

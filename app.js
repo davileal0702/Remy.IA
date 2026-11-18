@@ -88,7 +88,6 @@ function renderMensagem(m, i) {
     const TIPO_NOME = { cafe: "Café da manhã", principal: "Prato principal", sobremesa: "Sobremesa" };
     el.innerHTML = `<div class="bolha">
       ${m.tipo ? `<span class="tag-tipo">${TIPO_NOME[m.tipo] || esc(m.tipo)}</span>` : ""}
-      ${m.faltar && m.faltar !== "2" ? `<span class="tag-tipo">${{ "0": "Só com o que tenho", "5": "Pode faltar até 5", livre: "Pode faltar o que for" }[m.faltar] || ""}</span>` : ""}
       ${m.ingredientes?.length ? `<div class="chips-msg">${m.ingredientes.map(i => `<span class="chip">${esc(i)}</span>`).join("")}</div>` : ""}
       ${m.texto ? `<p>${esc(m.texto)}</p>` : ""}
       ${m.modo === "cardapio" ? `<span class="tag" style="margin-top:8px">${ic("cloche")}Cardápio · ${esc(m.meta)} kcal</span>` : ""}
@@ -177,7 +176,7 @@ async function enviar() {
   }
   const meta = +$("#metaCalorias").value || 2000;
   const tipo = modo === "receitas" ? $("#tipoReceita").value : "";
-  const msg = { role: "user", texto, ingredientes: [...chips], modo, meta, tipo, faltar: $("#maxFaltantes").value };
+  const msg = { role: "user", texto, ingredientes: [...chips], modo, meta, tipo };
   const historico = c.mensagens.slice(-10).map(m => ({
     role: m.role,
     content: m.role === "user" ? [m.ingredientes.join(", "), m.texto].filter(Boolean).join(". ") : (m.dados?.texto || ""),
@@ -196,7 +195,7 @@ async function enviar() {
   try {
     dados = await RemyAPI.responder({ mensagem: texto, ingredientes: msg.ingredientes, modo, meta_calorias: meta, tipo,
                                       quantidades: quantidadesDe(msg.ingredientes.length ? msg.ingredientes : nomesGeladeira()),
-                                      max_faltantes: msg.faltar, perfil, historico });
+                                      perfil, historico });
   } catch (e) {
     dados = { erro: true, texto: `Ops! A cozinha pegou fogo: ${e.message || e}\n\nConfira a conexão em **Conectar modelo**.` };
   }
@@ -262,7 +261,6 @@ mensagensEl.addEventListener("click", e => {
     chips = []; renderChips(); setModo("receitas");
     const ultimoUser = [...(conversaAtual()?.mensagens || [])].reverse().find(m => m.role === "user");
     if (ultimoUser?.tipo !== undefined) definirMenu("#tipoReceita", ultimoUser.tipo || "");
-    if (ultimoUser?.faltar) definirMenu("#maxFaltantes", ultimoUser.faltar);
     entrada.value = "Mais receitas, por favor"; enviar(); return;
   }
   const b = e.target.closest(".variante-btn");
@@ -675,9 +673,6 @@ function quantidadesDe(nomes) {
   return out;
 }
 
-// "Pode faltar" fica salvo para a próxima visita
-try { const f = localStorage.getItem("remy.faltar"); if (f) definirMenu("#maxFaltantes", f); } catch {}
-$("#maxFaltantes").addEventListener("change", e => { try { localStorage.setItem("remy.faltar", e.target.value); } catch {} });
 
 // Início
 Remy.montar();

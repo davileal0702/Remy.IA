@@ -59,7 +59,7 @@ A seção converte cada ingrediente em gramas, liga ao alimento da TACO e divide
 
 - **Minha geladeira**: abre na primeira visita (dá para pular). O "Toque para adicionar" mostra os ingredientes da base. Quantidade é opcional; com ela, o Remy avisa quando a receita pede mais do que você tem. Para ingredientes com tipos (farinha, queijo, fermento...) o site pergunta qual é.
 - **Meu perfil**: vegetariano, vegano, sem glúten, sem lactose e alimentos que a pessoa não come. Vale para toda busca e cardápio. O filtro olha nome, ingredientes e modo de preparo, e o site mostra um aviso para conferir os rótulos em caso de alergia.
-- **Receitas**: tipo opcional (café da manhã, prato principal, sobremesa) e **Pode faltar** (nada, até 2, até 5, tanto faz). Cards em duas colunas, com variantes do mesmo prato num card só. Botão **Mais receitas** traz as próximas sem repetir.
+- **Receitas**: tipo opcional (café da manhã, prato principal, sobremesa). Cards em duas colunas, com variantes do mesmo prato num card só. Botão **Mais receitas** traz as próximas sem repetir.
 - **Cardápio do dia**: café, almoço, acompanhamento, jantar e sobremesa dentro da meta de calorias.
 - **Receita escolhida**: lista de compras, checklist de ingredientes (por parte: massa, recheio...), ajuste de porções que recalcula as quantidades, modo de preparo com **timer** nos passos que têm tempo e uma dica do Remy.
 - **Caderno de receitas**: o histórico na barra lateral, com o nome da receita escolhida.
@@ -75,15 +75,13 @@ O site manda para `/responder` um texto JSON:
   "quantidades": { "leite": { "qtd": 1, "unidade": "l" } },
   "modo": "receitas",
   "tipo": "principal",
-  "max_faltantes": "2",
   "meta_calorias": 2000,
   "perfil": { "dietas": ["sem lactose"], "evitar": ["amendoim"] },
   "historico": [{ "role": "user", "content": "..." }]
 }
 ```
 
-- `modo`: `"receitas"` ou `"cardapio"`. `tipo`: `""`, `"cafe"`, `"principal"` ou `"sobremesa"`. `max_faltantes`: `"0"`, `"2"`, `"5"` ou `"livre"`.
-- Pedidos especiais: `{"acao": "ingredientes"}` devolve `{"ingredientes": [...]}` (lista do "Toque para adicionar"); `{"acao": "dica", "receita": {...}}` devolve `{"dica": "..."}`.
+- `modo`: `"receitas"` ou `"cardapio"`. `tipo`: `""`, `"cafe"`, `"principal"` ou `"sobremesa"`.- Pedidos especiais: `{"acao": "ingredientes"}` devolve `{"ingredientes": [...]}` (lista do "Toque para adicionar"); `{"acao": "dica", "receita": {...}}` devolve `{"dica": "..."}`.
 
 O modelo devolve um texto JSON:
 
