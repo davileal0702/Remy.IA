@@ -85,9 +85,7 @@ function renderMensagem(m, i) {
   const el = document.createElement("div");
   el.className = "msg " + m.role;
   if (m.role === "user") {
-    const TIPO_NOME = { cafe: "Café da manhã", principal: "Prato principal", sobremesa: "Sobremesa" };
     el.innerHTML = `<div class="bolha">
-      ${m.tipo ? `<span class="tag-tipo">${TIPO_NOME[m.tipo] || esc(m.tipo)}</span>` : ""}
       ${m.ingredientes?.length ? `<div class="chips-msg">${m.ingredientes.map(i => `<span class="chip">${esc(i)}</span>`).join("")}</div>` : ""}
       ${m.texto ? `<p>${esc(m.texto)}</p>` : ""}
       ${m.modo === "cardapio" ? `<span class="tag" style="margin-top:8px">${ic("cloche")}Cardápio · ${esc(m.meta)} kcal</span>` : ""}
@@ -153,7 +151,6 @@ function setModo(m) {
   modo = m;
   document.querySelectorAll(".seg-btn").forEach(b => b.classList.toggle("ativo", b.dataset.modo === m));
   $("#meta").hidden = m !== "cardapio";
-  $("#tipo").hidden = m !== "receitas";
 }
 
 function abrir(id) {
@@ -175,8 +172,7 @@ async function enviar() {
     conversas.unshift(c); atual = c.id;
   }
   const meta = +$("#metaCalorias").value || 2000;
-  const tipo = modo === "receitas" ? $("#tipoReceita").value : "";
-  const msg = { role: "user", texto, ingredientes: [...chips], modo, meta, tipo };
+  const msg = { role: "user", texto, ingredientes: [...chips], modo, meta };
   const historico = c.mensagens.slice(-10).map(m => ({
     role: m.role,
     content: m.role === "user" ? [m.ingredientes.join(", "), m.texto].filter(Boolean).join(". ") : (m.dados?.texto || ""),
@@ -193,7 +189,7 @@ async function enviar() {
 
   let dados;
   try {
-    dados = await RemyAPI.responder({ mensagem: texto, ingredientes: msg.ingredientes, modo, meta_calorias: meta, tipo,
+    dados = await RemyAPI.responder({ mensagem: texto, ingredientes: msg.ingredientes, modo, meta_calorias: meta,
                                       quantidades: quantidadesDe(msg.ingredientes.length ? msg.ingredientes : nomesGeladeira()),
                                       perfil, historico });
   } catch (e) {
@@ -260,7 +256,6 @@ mensagensEl.addEventListener("click", e => {
   if (e.target.closest(".btn-mais")) {
     chips = []; renderChips(); setModo("receitas");
     const ultimoUser = [...(conversaAtual()?.mensagens || [])].reverse().find(m => m.role === "user");
-    if (ultimoUser?.tipo !== undefined) definirMenu("#tipoReceita", ultimoUser.tipo || "");
     entrada.value = "Mais receitas, por favor"; enviar(); return;
   }
   const b = e.target.closest(".variante-btn");
