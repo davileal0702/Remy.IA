@@ -18,13 +18,15 @@ Os arquivos `food.csv` e `nutrients.csv` não foram alterados.
 A TACO não tem alguns ingredientes comuns nas receitas (ketchup, bacon, cream cheese, vinho, licor, sorvete, salsicha,
 champignon, peito de peru, chantilly, uva passa...) e deixa o leite sem kcal. Esses valores estão em `complementos.csv`,
 tirados da tabela oficial do IBGE: **Tabelas de Composição Nutricional dos Alimentos Consumidos no Brasil** (POF 2008-2009, IBGE, 2011).
+Quando nem o IBGE tem o item (canela, baunilha, vinagre, gengibre...), o valor vem da USDA (tabela dos EUA), do rótulo do produto ou de uma estimativa, indicado na coluna `fonte`.
 
 | Coluna | O que é |
 |---|---|
 | `ingrediente` | Nome do ingrediente como o Remy o reconhece (sem acento) |
-| `kcal_100g` | Energia por 100 g, da Tabela 1 do IBGE |
-| `alimento_na_fonte` | Nome do item na tabela do IBGE |
-| `codigo_ibge` | Código do item, para conferir |
+| `kcal_100g` | Energia por 100 g |
+| `alimento_na_fonte` | Nome do item na tabela de origem |
+| `codigo_ibge` | Código do item no IBGE, para conferir (vazio quando a fonte não é o IBGE) |
 | `observacao` | Quando o valor é uma aproximação (ex.: vinho do Porto usa o valor de vinho) |
+| `fonte` | `IBGE`, `USDA`, `rótulo` ou `estimado` |
 
 Para revisar ou acrescentar um item, basta editar este CSV: o notebook lê a tabela a cada execução.
