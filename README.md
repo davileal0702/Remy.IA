@@ -31,7 +31,8 @@ site (este repositório)  ──JSON──▶  notebook no Colab (Gradio /respon
 | `notebooks/RemyIA_Final.ipynb` | O cérebro: base + TACO + busca + Qwen3.5-2B, servindo o site pelo Gradio |
 | `dados/taco/` | Tabela TACO e complementos do IBGE, usados para estimar as calorias. Veja abaixo |
 | `space/` | Modelo de Space do Hugging Face (ainda **não** tem o pipeline final; use o notebook) |
-| `dados/` | Bases de receitas locais, **fora do GitHub** (`.gitignore`). `antigos/foodcom/` guarda a base antiga do Food.com; `tudogostoso/` recebe a base atual. Veja `dados/LEIA-ME.md` |
+| `dados/` | Bases de receitas locais, **fora do GitHub** (`.gitignore`). A base final é `tudogostoso/receitas_com_calorias.parquet`; `antigos/foodcom/` guarda a base antiga do Food.com. Veja `dados/LEIA-ME.md` |
+| `scripts/calorias_taco.py` | Gera a base final: calcula as calorias por porção de cada receita com a TACO e os complementos |
 | `docs/BRIEFING_LLM.md` | Explicação do site para quem treina a LLM (primeira versão do contrato; o contrato atual é o desta página) |
 
 ## Rodando

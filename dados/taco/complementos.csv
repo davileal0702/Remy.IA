@@ -1,33 +1,53 @@
-ingrediente,kcal_100g,alimento_na_fonte,codigo_ibge,observacao
-leite,60.03,Leite de vaca integral,7900101,TACO tem o item mas sem kcal
-leite desnatado,34.15,Leite de vaca desnatado,7903601,TACO tem o item mas sem kcal
-ketchup,97.00,Ketchup,7004802,
-bacon,541.00,Bacon,8101005,
-cream cheese,209.66,Creme de queijo,7007502,
-vinho,84.50,Vinho,8302415,
-vinho tinto,84.50,Vinho,8302415,
-vinho branco,84.50,Vinho,8302415,
-vinho tinto seco,84.50,Vinho,8302415,
-vinho branco seco,84.50,Vinho,8302415,
-vinho tinto suave,84.50,Vinho,8302415,
-vinho do porto,84.50,Vinho,8302415,aproximação: vinho do Porto é licoroso e tem mais calorias
-licor,282.65,Licor de qualquer sabor,8301901,
-licor de cacau,282.65,Licor de qualquer sabor,8301901,
-licor de laranja,282.65,Licor de qualquer sabor,8301901,
-licor de menta,282.65,Licor de qualquer sabor,8301901,
-sorvete,206.00,Sorvete de qualquer sabor industrializado,6900501,
-sorvete de creme,206.00,Sorvete de qualquer sabor industrializado,6900501,
-salsicha,321.05,Salsicha no varejo,8102101,
-champignon,50.74,Champignon em conserva,7700602,
-chocolate em po,364.24,Chocolate em pó de qualquer marca,6900801,
-chocolate em po soluvel,364.24,Chocolate em pó de qualquer marca,6900801,
-peito de peru,140.00,Peito de peru,7801801,
-peito de peru defumado,140.00,Peito de peru,7801801,
-chantilly,276.39,Chantilly,7901101,
-cereja,63.00,Cereja,6804501,aproximação: cereja em calda tem mais açúcar
-cereja em calda,63.00,Cereja,6804501,aproximação: cereja em calda tem mais açúcar
-fruta cristalizada,291.30,Doce de frutas cristalizado de qualquer sabor,6901401,
-uva passa,299.00,Uva passa,6803912,
-nescafe,241.00,Nescafé,8202602,
-cafe soluvel,241.00,Nescafé,8202602,
-granulado,492.00,Confete,6900706,aproximação: a tabela não tem chocolate granulado; usamos o confeito de chocolate
+ingrediente,kcal_100g,alimento_na_fonte,codigo_ibge,observacao,fonte
+leite,60.03,Leite de vaca integral,7900101,TACO tem o item mas sem kcal,IBGE
+leite desnatado,34.15,Leite de vaca desnatado,7903601,TACO tem o item mas sem kcal,IBGE
+ketchup,97.0,Ketchup,7004802,,IBGE
+bacon,541.0,Bacon,8101005,,IBGE
+cream cheese,209.66,Creme de queijo,7007502,,IBGE
+vinho,84.5,Vinho,8302415,,IBGE
+vinho tinto,84.5,Vinho,8302415,,IBGE
+vinho branco,84.5,Vinho,8302415,,IBGE
+vinho tinto seco,84.5,Vinho,8302415,,IBGE
+vinho branco seco,84.5,Vinho,8302415,,IBGE
+vinho tinto suave,84.5,Vinho,8302415,,IBGE
+vinho do porto,84.5,Vinho,8302415,aproximação: vinho do Porto é licoroso e tem mais calorias,IBGE
+licor,282.65,Licor de qualquer sabor,8301901,,IBGE
+licor de cacau,282.65,Licor de qualquer sabor,8301901,,IBGE
+licor de laranja,282.65,Licor de qualquer sabor,8301901,,IBGE
+licor de menta,282.65,Licor de qualquer sabor,8301901,,IBGE
+sorvete,206.0,Sorvete de qualquer sabor industrializado,6900501,,IBGE
+sorvete de creme,206.0,Sorvete de qualquer sabor industrializado,6900501,,IBGE
+salsicha,321.05,Salsicha no varejo,8102101,,IBGE
+champignon,50.74,Champignon em conserva,7700602,,IBGE
+chocolate em po,364.24,Chocolate em pó de qualquer marca,6900801,,IBGE
+chocolate em po soluvel,364.24,Chocolate em pó de qualquer marca,6900801,,IBGE
+peito de peru,140.0,Peito de peru,7801801,,IBGE
+peito de peru defumado,140.0,Peito de peru,7801801,,IBGE
+chantilly,276.39,Chantilly,7901101,,IBGE
+cereja,63.0,Cereja,6804501,aproximação: cereja em calda tem mais açúcar,IBGE
+cereja em calda,63.0,Cereja,6804501,aproximação: cereja em calda tem mais açúcar,IBGE
+fruta cristalizada,291.3,Doce de frutas cristalizado de qualquer sabor,6901401,,IBGE
+uva passa,299.0,Uva passa,6803912,,IBGE
+nescafe,241.0,Nescafé,8202602,,IBGE
+cafe soluvel,241.0,Nescafé,8202602,,IBGE
+granulado,492.0,Confete,6900706,aproximação: a tabela não tem chocolate granulado; usamos o confeito de chocolate,IBGE
+mostarda,67.0,Mostarda molho,7001501,,IBGE
+batata palha,545.7,Batata palha,8501503,,IBGE
+cogumelo,28.0,Cogumelo in natura,6705301,,IBGE
+tapioca,336.0,Tapioca de goma,6501516,,IBGE
+granola,388.0,Granola,6504101,,IBGE
+canela,247.0,"Spices, cinnamon, ground",,não está na TACO nem no IBGE,USDA
+cacau,228.0,"Cocoa, dry powder, unsweetened",,TACO e IBGE só têm o fruto do cacau (74 kcal),USDA
+lula,92.0,"Mollusks, squid, mixed species, raw",,IBGE só tem lula empanada,USDA
+baunilha,288.0,Vanilla extract,,não está na TACO nem no IBGE,USDA
+essencia de baunilha,288.0,Vanilla extract,,não está na TACO nem no IBGE,USDA
+vinagre,18.0,"Vinegar, distilled",,não está na TACO nem no IBGE,USDA
+coentro,23.0,"Coriander (cilantro) leaves, raw",,TACO e IBGE só têm coentro desidratado,USDA
+hortela,44.0,"Spearmint, fresh",,IBGE só tem hortelã como chá,USDA
+gengibre,80.0,"Ginger root, raw",,não está na TACO nem no IBGE,USDA
+molho ingles,78.0,"Sauce, worcestershire",,não está na TACO nem no IBGE,USDA
+massa folhada,380.0,Massa folhada laminada Massa Leve (rótulo),,não está na TACO nem no IBGE,rótulo
+creme de cebola,350.0,Estimativa para sopa desidratada em pó,,estimado: as tabelas só têm a sopa pronta; pós desidratados ficam em ~330-360 kcal/100 g,estimado
+caldo de legumes,246.0,"Média dos caldos em tablete da TACO (carne 241, galinha 251)",,estimado a partir da TACO,estimado
+molho branco,85.0,Bechamel caseiro: 1 L de leite + 30 g de manteiga + 20 g de farinha,,estimado pela receita-base com valores TACO/IBGE,estimado
+massa de pizza,245.0,Massa caseira: 500 g de farinha + 300 ml de água + 30 ml de azeite,,estimado pela receita-base com valores TACO,estimado
