@@ -255,3 +255,17 @@ O caminho dos dados está descrito em `dados/LEIA-ME.md`. A base de receitas nã
 A janela **Meu perfil** já existe no site, mas **ainda não faz parte da versão atual do projeto**. A pessoa consegue marcar uma dieta (vegetariano, vegano, sem glúten ou sem lactose) e listar alimentos que não come ou aos quais tem alergia. As escolhas ficam salvas no navegador e o site já as envia no pedido (campo `perfil`), mas **a IA ainda não aplica esses filtros nas buscas**: as receitas sugeridas podem conter itens marcados no perfil.
 
 Para funcionar, o próximo passo é a busca no notebook descartar as receitas que não combinam com o perfil, olhando o nome, os ingredientes e o modo de preparo. Mesmo assim, como o filtro dependeria do que o autor da receita escreveu, em caso de alergia continuaria sendo necessário conferir os rótulos dos produtos.
+
+### 6.2 Filtros de busca: "Tipo" e "Pode faltar"
+
+![Filtros Tipo e Pode faltar](img/11-filtros-removidos.png)
+
+*Figura 12. Os seletores "Tipo" e "Pode faltar", como apareciam numa versão anterior do site.*
+
+Uma versão anterior do site tinha dois seletores ao lado de **Receitas / Cardápio do dia**, que foram **retirados da versão atual** para simplificar a interface:
+
+- **Tipo:** limitava a busca a um tipo de receita: *Qualquer*, *Café da manhã* (bolos, pães, lanches, bebidas), *Prato principal* (carnes, aves, massas, peixes) ou *Sobremesa* (doces, pudins, mousses).
+- **Pode faltar:** definia quantos ingredientes a receita podia pedir além do que a pessoa tem: *Nada* (só receitas com o que ela tem), *Até 2*, *Até 5* ou *Tanto faz*.
+
+O notebook ainda entende esses dois campos do pedido (`tipo` e `max_faltantes`). Sem eles, a busca considera todos os tipos de receita e aceita até 2 ingredientes faltando, e a pessoa ainda pode pedir pelo texto, por exemplo *"quero uma sobremesa"* ou *"só com o que eu tenho"*. Voltar com os seletores no futuro exige apenas mudanças no site.
+
